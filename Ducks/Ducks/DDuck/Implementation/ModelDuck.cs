@@ -1,13 +1,13 @@
-﻿using Ducks.DDuck.Behaviour.Dance.Implementation;
-using Ducks.DDuck.Behaviour.Fly.Implementation;
-using Ducks.DDuck.Behaviour.Quack.Implementation;
+﻿using Ducks.DDuck.Behaviour.Dance;
+using Ducks.DDuck.Behaviour.Fly;
+using Ducks.DDuck.Behaviour.Quack;
 
 namespace Ducks.DDuck.Implementation;
 
 public class ModelDuck : Duck
 {
     public ModelDuck()
-        : base(new QuackBehaviour(), new FlyNoWay(), new NoDance())
+        : base(QuackBehaviourFactory.QuackBehaviour(), FlyBehaviourFactory.FlyNoWay(), DanceBehaviourFactory.NoDance())
     {
     }
 

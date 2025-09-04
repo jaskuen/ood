@@ -10,5 +10,5 @@ public interface IDuck
     public void Dance();
     public void Display();
     public bool IsQuackingOnEvenFlight();
-    public void SetFlyBehaviour(IFlyBehaviour behaviour);
+    public void SetFlyBehaviour(Tuple<Action, bool> behaviour);
 }

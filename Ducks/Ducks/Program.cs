@@ -1,5 +1,5 @@
 ﻿using Ducks;
-using Ducks.DDuck.Behaviour.Fly.Implementation;
+using Ducks.DDuck.Behaviour.Fly;
 using Ducks.DDuck.Implementation;
 
 var mallardDuck = new MallardDuck();
@@ -17,5 +17,5 @@ DuckFunctions.PlayWithDuck(decoyDuck);
 var modelDuck = new ModelDuck();
 DuckFunctions.PlayWithDuck(modelDuck);
 
-modelDuck.SetFlyBehaviour(new FlyWithWings());
+modelDuck.SetFlyBehaviour(FlyBehaviourFactory.FlyWithWings());
 DuckFunctions.PlayWithDuck(modelDuck);
