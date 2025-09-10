@@ -15,6 +15,11 @@ public class Duck : IDuck
     private bool _quackOnEvenFlight = false;
     private int _fliesCount = 0;
 
+    private bool CanFly()
+    {
+        return _flyBehaviour.GetType() != typeof(FlyNoWay);
+    }
+
     private void OnFly()
     {
         int num = _quackOnEvenFlight ? 0 : 1;
@@ -43,7 +48,7 @@ public class Duck : IDuck
 
     public void Fly()
     {
-        if (_flyBehaviour.GetType() != typeof(FlyNoWay))
+        if (CanFly())
         {
             OnFly();
             Console.WriteLine($"This will be my {_fliesCount} flight!!");
