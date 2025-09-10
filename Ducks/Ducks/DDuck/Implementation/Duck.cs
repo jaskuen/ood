@@ -7,7 +7,7 @@ public class Duck : IDuck
     private Action _flyBehaviour;
 
     private bool _canFly = false;
-    private bool _quackOnEvenFlight = false;
+    private readonly bool _quackOnEvenFlight = false;
     private int _fliesCount = 0;
 
     private void OnFly()
