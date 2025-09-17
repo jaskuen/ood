@@ -4,29 +4,27 @@ namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
 
 public class RectangleStrategy : IShapeStrategy
 {
-    public RectangleStrategy(Point point, double width, double height)
+    public RectangleStrategy(float pointX, float pointY, float width, float height)
     {
-        Point = point;
+        Point = new Point(pointX, pointY);
         Width = width;
         Height = height;
     }
 
     private Point Point { get; set; }
-    private double Width { get; set; }
-    private double Height { get; set; }
-    
+    private float Width { get; set; }
+    private float Height { get; set; }
+
     public void Draw(ICanvas canvas)
     {
-        canvas.MoveTo(Point.X, Point.Y);
-        canvas.LineTo(Point.X + Width, Point.Y);
-        canvas.LineTo(Point.X + Width, Point.Y + Height);
-        canvas.LineTo(Point.X, Point.Y + Height);
-        canvas.LineTo(Point.X, Point.Y);
+        canvas.DrawRect(Point.X, Point.Y, Width, Height);
     }
 
-    public void MoveTo(double x, double y)
+    public void MoveBy(float x, float y)
     {
         Point.X += x;
         Point.Y += y;
     }
+
+    public string StringParams() => $"rectangle {Point.X} {Point.Y} {Width} {Height}";
 }

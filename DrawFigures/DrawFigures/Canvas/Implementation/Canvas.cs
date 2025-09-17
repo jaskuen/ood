@@ -1,31 +1,67 @@
-﻿using SkiaSharp;
+﻿using DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+using SkiaSharp;
 
 namespace DrawFigures.Canvas.Implementation;
 
 public class Canvas : ICanvas
 {
-    public void MoveTo(double x, double y)
+    private SKBitmap _bitmap;
+    private SKCanvas _canvas;
+    private SKPaint _paint;
+    private Point _currentLocation;
+
+    public Canvas(int width, int height)
     {
-        throw new NotImplementedException();
+        _bitmap = new SKBitmap(width, height);
+        _canvas = new SKCanvas(_bitmap);
+        _canvas.Clear(SKColors.White);
+        _paint = new SKPaint()
+        {
+            Color = SKColors.Black,
+            StrokeWidth = 2,
+            Style = SKPaintStyle.Fill
+        };
+
+        _currentLocation = new Point(0, 0);
+    }
+
+    public void MoveTo(float x, float y)
+    {
+        _currentLocation.X = x;
+        _currentLocation.Y = y;
     }
 
     public void SetColor(SKColor color)
     {
-        throw new NotImplementedException();
+        _paint.Color = color;
     }
 
-    public void LineTo(double x, double y)
+    public void LineTo(float x, float y)
     {
-        throw new NotImplementedException();
+        _canvas.DrawLine(_currentLocation.X, _currentLocation.Y, x, y, _paint);
+        MoveTo(x, y);
     }
 
-    public void DrawEllipse(double x, double y, double rx, double ry)
+    public void DrawEllipse(float x, float y, float r)
     {
-        throw new NotImplementedException();
+        SKRect ellipseRect = new SKRect(x - r, y - r, x + r, y + r);
+        _canvas.DrawArc(ellipseRect, 0, 360, true, _paint);
     }
 
-    public void DrawText(double x, double y, double fontSize, string text)
+    public void DrawRect(float x, float y, float width, float height)
     {
-        throw new NotImplementedException();
+        SKRect rect = new SKRect(x, y, x + width, y + height);
+        _canvas.DrawRect(rect, _paint);
     }
+
+    public void DrawText(float x, float y, float fontSize, string text)
+    {
+        SKFont font = new SKFont()
+        {
+            Size = fontSize,
+        };
+        _canvas.DrawText(text, x, y, font, _paint);
+    }
+
+    public SKBitmap GetBitmap() => _bitmap;
 }

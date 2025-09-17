@@ -3,9 +3,11 @@ namespace DrawFigures.Canvas;
 
 public interface ICanvas
 {
-    public void MoveTo(double x, double y);
+    public void MoveTo(float x, float y);
     public void SetColor(SKColor color);
-    public void LineTo(double x, double y);
-    public void DrawEllipse(double x, double y, double rx, double ry);
-    public void DrawText(double x, double y, double fontSize, string text);
+    public void LineTo(float x, float y);
+    public void DrawEllipse(float x, float y, float r);
+    public void DrawRect(float x, float y, float width, float height);
+    public void DrawText(float x, float y, float fontSize, string text);
+    public SKBitmap GetBitmap();
 }

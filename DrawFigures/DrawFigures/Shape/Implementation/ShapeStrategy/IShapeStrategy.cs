@@ -5,5 +5,6 @@ namespace DrawFigures.Shape.Implementation.ShapeStrategy;
 public interface IShapeStrategy
 {
     public void Draw(ICanvas canvas);
-    public void MoveTo(double x, double y);
+    public void MoveBy(float x, float y);
+    public string StringParams();
 }
