@@ -25,34 +25,34 @@ public class DuckTests
     public void TestDance_DuckDanced()
     {
         // Arrange
-        bool duckDanced = false;
+        int danceCount = 0;
         Mock.Get(_danceBehaviour)
             .Setup(x => x.Dance())
-            .Callback(() => duckDanced = true);
+            .Callback(() => danceCount++ );
 
         IDuck duck = new Duck(_quackBehaviour, _flyBehaviour, _danceBehaviour);
         // Act
         duck.Dance();
 
         // Assert
-        Assert.IsTrue(duckDanced);
+        Assert.That(danceCount, Is.EqualTo(1));
     }
 
     [Test]
     public void TestFly_QuacksOnFlight()
     {
         // Arrange
-        bool quacked = false;
+        int quackCount = 0;
         IDuck duck = new Duck(_quackBehaviour, _flyBehaviour, _danceBehaviour);
 
         Mock.Get(_quackBehaviour)
             .Setup(x => x.Quack())
-            .Callback(() => quacked = !duck.IsQuackingOnEvenFlight());
+            .Callback(() => quackCount++);
 
         // Act
         duck.Fly();
 
         // Assert
-        Assert.IsTrue(quacked);
+        Assert.That(quackCount, Is.EqualTo(1));
     }
 }

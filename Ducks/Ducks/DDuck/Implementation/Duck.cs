@@ -13,17 +13,19 @@ public class Duck : IDuck
     private IFlyBehaviour _flyBehaviour;
 
     private bool _quackOnEvenFlight = false;
+    // naming
     private int _fliesCount = 0;
 
     private bool CanFly()
     {
+        // Добавить проверку через стратегию
         return _flyBehaviour.GetType() != typeof(FlyNoWay);
     }
 
     private void OnFly()
     {
         int num = _quackOnEvenFlight ? 0 : 1;
-        if (++_fliesCount % 2 == num)
+        if ((_fliesCount + 1) % 2 == num)
         {
             Quack();
         }
@@ -51,14 +53,16 @@ public class Duck : IDuck
         if (CanFly())
         {
             OnFly();
-            Console.WriteLine($"This will be my {_fliesCount} flight!!");
+            Console.WriteLine($"This will be my {_fliesCount + 1} flight!!");
         }
 
         _flyBehaviour.Fly();
+        _fliesCount++;
     }
 
     public void Dance()
     {
+        _danceBehaviour.Dance();
         _danceBehaviour.Dance();
     }
 
