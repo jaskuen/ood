@@ -1,13 +1,14 @@
 ﻿using DrawFigures.Canvas;
+using DrawFigures.Picture.Implementation;
 
 namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
 
 public class CircleStrategy : IShapeStrategy
 {
-    public CircleStrategy(float centerX, float centerY, float radius)
+    public CircleStrategy(string centerX, string centerY, string radius)
     {
-        Center = new Point(centerX, centerY);
-        Radius = radius;
+        Center = new Point(centerX.ToFloat(), centerY.ToFloat());
+        Radius = radius.ToFloat();
     }
 
     private Point Center { get; }
@@ -15,7 +16,7 @@ public class CircleStrategy : IShapeStrategy
 
     public void Draw(ICanvas canvas)
     {
-        canvas.DrawEllipse(Center.X, Center.Y, Radius);
+        canvas.DrawEllipse(Center.X, Center.Y, Radius, Radius);
     }
 
     public void MoveBy(float x, float y)

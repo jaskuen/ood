@@ -101,7 +101,7 @@ public class Picture : IPicture
     {
         foreach ( var item in _shapes.Select((value, i) => new { i, value }) )
         {
-            Console.WriteLine($"{item.i} {item.value.Key} {item.value.Value.ToString()}");
+            Console.WriteLine($"{item.i + 1} {item.value.Key} {item.value.Value.ToString()}");
         }
     }
 

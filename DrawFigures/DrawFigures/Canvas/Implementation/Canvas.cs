@@ -42,9 +42,9 @@ public class Canvas : ICanvas
         MoveTo(x, y);
     }
 
-    public void DrawEllipse(float x, float y, float r)
+    public void DrawEllipse(float x, float y, float rx, float ry)
     {
-        SKRect ellipseRect = new SKRect(x - r, y - r, x + r, y + r);
+        SKRect ellipseRect = new SKRect(x - rx, y - ry, x + rx, y + ry);
         _canvas.DrawArc(ellipseRect, 0, 360, true, _paint);
     }
 

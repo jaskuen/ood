@@ -1,14 +1,15 @@
 ﻿using DrawFigures.Canvas;
+using DrawFigures.Picture.Implementation;
 
 namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
 
 public class RectangleStrategy : IShapeStrategy
 {
-    public RectangleStrategy(float pointX, float pointY, float width, float height)
+    public RectangleStrategy(string pointX, string pointY, string width, string height)
     {
-        Point = new Point(pointX, pointY);
-        Width = width;
-        Height = height;
+        Point = new Point(pointX.ToFloat(), pointY.ToFloat());
+        Width = width.ToFloat();
+        Height = height.ToFloat();
     }
 
     private Point Point { get; set; }

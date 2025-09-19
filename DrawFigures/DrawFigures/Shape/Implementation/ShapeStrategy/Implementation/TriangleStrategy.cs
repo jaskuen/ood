@@ -1,14 +1,15 @@
 ﻿using DrawFigures.Canvas;
+using DrawFigures.Picture.Implementation;
 
 namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
 
 public class TriangleStrategy : IShapeStrategy
 {
-    public TriangleStrategy(float x1, float y1, float x2, float y2, float x3, float y3)
+    public TriangleStrategy(string x1, string y1, string x2, string y2, string x3, string y3)
     {
-        Point1 = new Point(x1, y1);
-        Point2 = new Point(x2, y2);
-        Point3 = new Point(x3, y3);
+        Point1 = new Point(x1.ToFloat(), y1.ToFloat());
+        Point2 = new Point(x2.ToFloat(), y2.ToFloat());
+        Point3 = new Point(x3.ToFloat(), y3.ToFloat());
     }
 
     private Point Point1 { get; set; }

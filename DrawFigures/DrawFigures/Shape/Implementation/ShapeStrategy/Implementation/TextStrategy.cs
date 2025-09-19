@@ -1,14 +1,15 @@
 ﻿using DrawFigures.Canvas;
+using DrawFigures.Picture.Implementation;
 
 namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
 
 public class TextStrategy : IShapeStrategy
 {
-    public TextStrategy(float x, float y, string text, float fontSize)
+    public TextStrategy(string x, string y, string text, string fontSize)
     {
-        TextPosition = new Point(x, y);
+        TextPosition = new Point(x.ToFloat(), y.ToFloat());
         Text = text;
-        FontSize = fontSize;
+        FontSize = fontSize.ToFloat();
     }
 
     private Point TextPosition { get; set; }

@@ -1,13 +1,14 @@
 ﻿using DrawFigures.Canvas;
+using DrawFigures.Picture.Implementation;
 
 namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
 
 public class LineStrategy : IShapeStrategy
 {
-    public LineStrategy(float startX, float startY, float endX, float endY)
+    public LineStrategy(string startX, string startY, string endX, string endY)
     {
-        StartPoint = new Point(startX, startY);
-        EndPoint = new Point(endX, endY);
+        StartPoint = new Point(startX.ToFloat(), startY.ToFloat());
+        EndPoint = new Point(endX.ToFloat(), endY.ToFloat());
     }
 
     private Point StartPoint { get; set; }
