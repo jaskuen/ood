@@ -25,7 +25,7 @@ public class Observable<T> : IObservable<T>
 
     protected virtual T GetChangedData()
     {
-        throw new NotImplementedException("Cannot use default observable class");
+        throw new Exception("Cannot use default observable class");
     }
 
     protected IList<IObserver<T>> GetObservers()
