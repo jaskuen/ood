@@ -1,36 +1,25 @@
-﻿using WeatherStation.Lib;
+﻿namespace WeatherStation.Station.WeatherDisplays;
 
-namespace WeatherStation.Station.WeatherDisplays;
-
-public struct StatsDisplayValues()
+public class StatsDisplay : Lib.ICustomObserver<WeatherInfo>
 {
-    public StationMeasurableValue Temperature = new();
-    public StationMeasurableValue Humidity = new();
-    public StationMeasurableValue Pressure = new();
-}
+    private readonly StationMeasurableValue _temperature = new StationMeasurableValue();
+    private readonly StationMeasurableValue _humidity = new StationMeasurableValue();
+    private readonly StationMeasurableValue _pressure = new StationMeasurableValue();
+    private readonly StationMeasurableValue _windSpeed = new StationMeasurableValue();
+    private readonly StationWindDirection _windDirection = new StationWindDirection();
 
-public class StatsDisplay : ICustomObserver<WeatherInfo>
-{
-    private IDictionary<ICustomObservable<WeatherInfo>, StatsDisplayValues> _stats =
-        new Dictionary<ICustomObservable<WeatherInfo>, StatsDisplayValues>();
-
-    public void Update(WeatherInfo data, ICustomObservable<WeatherInfo> source)
+    public void Update(WeatherInfo data)
     {
-        if (!_stats.ContainsKey(source))
-        {
-            _stats.Add(source, new StatsDisplayValues());
-        }
-        
-        StatsDisplayValues stats = _stats[source];
-        
-        stats.Temperature.AddNewValue(data.Temperature);
-        stats.Humidity.AddNewValue(data.Humidity);
-        stats.Pressure.AddNewValue(data.Pressure);
-        
-        Console.WriteLine($"Station name: {source.GetName()}");
-        DisplayStat(stats.Temperature, "temperature");
-        DisplayStat(stats.Humidity, "humidity");
-        DisplayStat(stats.Pressure, "pressure");
+        _temperature.AddNewValue(data.Temperature);
+        _humidity.AddNewValue(data.Humidity);
+        _pressure.AddNewValue(data.Pressure);
+        _windSpeed.AddNewValue(data.WindSpeed);
+        _windDirection.AddNewValue(data.WindDirection);
+
+        DisplayStat(_temperature, "temperature");
+        DisplayStat(_humidity, "humidity");
+        DisplayStat(_pressure, "pressure");
+        DisplayWind();
     }
 
     private void DisplayStat(StationMeasurableValue measurableValue, string statName)
@@ -43,5 +32,14 @@ public class StatsDisplay : ICustomObserver<WeatherInfo>
                            """);
     }
 
-    
+    private void DisplayWind()
+    {
+        Console.WriteLine($"""
+                           Max wind speed: {_windSpeed.GetMax()}
+                           Min wind speed: {_windSpeed.GetMin()}
+                           Average wind speed: {_windSpeed.GetAverage()}
+                           Average wind direction: {_windDirection.GetAverage()}
+                           -------------------------------
+                           """);
+    }
 }
