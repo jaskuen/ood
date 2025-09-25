@@ -1,6 +1,6 @@
 ﻿namespace WeatherStation.Station.WeatherDisplays;
 
-public class StatsDisplay : Lib.IObserver<WeatherInfo>
+public class StatsDisplay : Lib.ICustomObserver<WeatherInfo>
 {
     private readonly StationMeasurableValue _temperature = new StationMeasurableValue();
     private readonly StationMeasurableValue _humidity = new StationMeasurableValue();
@@ -17,7 +17,7 @@ public class StatsDisplay : Lib.IObserver<WeatherInfo>
         DisplayStat(_pressure, "pressure");
     }
 
-    public void Update(WeatherInfo data, IList<Lib.IObserver<WeatherInfo>> observers)
+    public void Update(WeatherInfo data, IList<Lib.ICustomObserver<WeatherInfo>> observers)
     {
         Update(data);
         observers.Remove(this);

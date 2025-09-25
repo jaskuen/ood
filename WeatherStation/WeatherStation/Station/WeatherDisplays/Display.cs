@@ -2,7 +2,7 @@
 
 namespace WeatherStation.Station.WeatherDisplays;
 
-public class Display : Lib.IObserver<WeatherInfo>
+public class Display : Lib.ICustomObserver<WeatherInfo>
 {
     public void Update(WeatherInfo data)
     {

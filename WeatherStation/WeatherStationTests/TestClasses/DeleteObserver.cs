@@ -1,13 +1,14 @@
-﻿using WeatherStation.Lib.Implementation;
+﻿using WeatherStation.Lib;
+using WeatherStation.Lib.Implementation;
 
 namespace WeatherStationTests.TestClasses;
 
 public struct Data
 {
-    public IList<WeatherStation.Lib.IObserver<Data>> Observers;
+    public IList<ICustomObserver<Data>> Observers;
 }
 
-public class DeleteObserver : WeatherStation.Lib.IObserver<Data>
+public class DeleteObserver : ICustomObserver<Data>
 {
     public void Update(Data data)
     {
@@ -15,7 +16,7 @@ public class DeleteObserver : WeatherStation.Lib.IObserver<Data>
     }
 }
 
-public class DeleteObserverObservable : Observable<Data>
+public class DeleteObserverObservable : CustomObservable<Data>
 {
     public void Execute()
     {

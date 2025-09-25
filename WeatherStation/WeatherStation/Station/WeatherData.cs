@@ -18,7 +18,7 @@ public struct WeatherInfo
     }
 }
 
-public class WeatherData : Observable<WeatherInfo>
+public class WeatherData : CustomObservable<WeatherInfo>
 {
     private double _temperature;
     private double _humidity;

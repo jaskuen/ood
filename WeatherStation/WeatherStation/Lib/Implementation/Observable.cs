@@ -1,26 +1,37 @@
 ﻿namespace WeatherStation.Lib.Implementation;
 
-public class Observable<T> : IObservable<T>
+public class CustomObservable<T> : ICustomObservable<T>
 {
-    private IList<IObserver<T>> _observers = new List<IObserver<T>>();
-    
-    public void RegisterObserver(IObserver<T> observer)
+    private IDictionary<ICustomObserver<T>, int> _observers = new Dictionary<ICustomObserver<T>, int>();
+
+    public void RegisterObserver(ICustomObserver<T> observer, int priority = 1)
     {
-        _observers.Add(observer);
+        // 1 - highest priority
+        if (!_observers.TryAdd(observer, priority))
+        {
+            throw new Exception("Observer is already added");
+        }
     }
 
     public void NotifyMembers()
     {
-        IList<IObserver<T>> currentObservers = new List<IObserver<T>>(_observers);
-        foreach (IObserver<T> observer in currentObservers)
+        IList<ICustomObserver<T>> currentObservers = 
+            _observers
+                .OrderBy(o => o.Value)
+                .Select(o => o.Key)
+                .ToList();
+        foreach (ICustomObserver<T> observer in currentObservers)
         {
             observer.Update(GetChangedData());
         }
     }
 
-    public void RemoveObserver(IObserver<T> observer)
+    public void RemoveObserver(ICustomObserver<T> observer)
     {
-        _observers.Remove(observer);
+        if (!_observers.Remove(observer))
+        {
+            throw new Exception("Observer is not attached to this observable");
+        }
     }
 
     protected virtual T GetChangedData()
@@ -28,8 +39,8 @@ public class Observable<T> : IObservable<T>
         throw new Exception("Cannot use default observable class");
     }
 
-    protected IList<IObserver<T>> GetObservers()
+    protected IList<ICustomObserver<T>> GetObservers()
     {
-        return _observers;
+        return _observers.Keys.ToList();
     }
 }

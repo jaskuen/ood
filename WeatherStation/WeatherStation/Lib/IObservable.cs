@@ -1,8 +1,8 @@
 ﻿namespace WeatherStation.Lib;
 
-public interface IObservable<T>
+public interface ICustomObservable<T>
 {
-    public void RegisterObserver(IObserver<T> observer);
+    public void RegisterObserver(ICustomObserver<T> observer, int priority = 1);
     public void NotifyMembers();
-    public void RemoveObserver(IObserver<T> observer);
+    public void RemoveObserver(ICustomObserver<T> observer);
 }
