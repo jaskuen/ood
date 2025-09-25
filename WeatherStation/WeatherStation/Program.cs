@@ -3,10 +3,10 @@
 using WeatherStation.Station;
 using WeatherStation.Station.WeatherDisplays;
 
-WeatherData station = new WeatherData();
+WeatherDataPro station = new WeatherDataPro();
 StatsDisplay display = new StatsDisplay();
 station.RegisterObserver(display);
 
-station.SetMeasurements(10, 20, 768);
-station.SetMeasurements(12, 63, 778);
-station.SetMeasurements(-3, 87, 770);
+station.SetMeasurements(10, 20, 768, 3, 10);
+station.SetMeasurements(12, 63, 778, 6, 350);
+station.SetMeasurements(-3, 87, 770, 4, 340);
