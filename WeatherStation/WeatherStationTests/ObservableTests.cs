@@ -2,6 +2,7 @@ using Moq;
 using WeatherStation.Lib;
 using WeatherStation.Station;
 using WeatherStation.Station.WeatherDisplays;
+using WeatherStation.Station.WeatherDisplays.Info;
 using WeatherStationTests.TestClasses;
 
 namespace WeatherStationTests;
@@ -61,7 +62,7 @@ public class Tests
     public void Observer_ThereAreDifferentObservables_CanGetThemCorrectly()
     {
         // Задаем порядок отправления сообщений от станций: 3 1 2
-        ICustomObserver<WeatherInfo> observer = Mock.Of<ICustomObserver<WeatherInfo>>();
+        ICustomObserver<ObserverInfo> observer = Mock.Of<ICustomObserver<ObserverInfo>>();
 
         string expected = "312";
         string result = String.Empty;
