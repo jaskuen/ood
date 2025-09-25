@@ -10,7 +10,7 @@ public struct Data
 
 public class DeleteObserver : ICustomObserver<Data>
 {
-    public void Update(Data data)
+    public void Update(Data data, ICustomObservable<Data> source)
     {
         data.Observers.Remove(this);
     }

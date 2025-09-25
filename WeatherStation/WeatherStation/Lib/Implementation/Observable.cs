@@ -22,7 +22,7 @@ public class CustomObservable<T> : ICustomObservable<T>
                 .ToList();
         foreach (ICustomObserver<T> observer in currentObservers)
         {
-            observer.Update(GetChangedData());
+            observer.Update(GetChangedData(), this);
         }
     }
 
@@ -33,6 +33,8 @@ public class CustomObservable<T> : ICustomObservable<T>
             throw new Exception("Observer is not attached to this observable");
         }
     }
+
+    public virtual string GetName() => "";
 
     protected virtual T GetChangedData()
     {

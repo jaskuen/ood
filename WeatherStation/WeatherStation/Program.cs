@@ -3,10 +3,19 @@
 using WeatherStation.Station;
 using WeatherStation.Station.WeatherDisplays;
 
-WeatherData station = new WeatherData();
-StatsDisplay display = new StatsDisplay();
-station.RegisterObserver(display);
+try
+{
 
-station.SetMeasurements(10, 20, 768);
-station.SetMeasurements(12, 63, 778);
-station.SetMeasurements(-3, 87, 770);
+    WeatherData inData = new WeatherData("in");
+    WeatherData outData = new WeatherData("out");
+    StatsDisplay display = new StatsDisplay();
+    inData.RegisterObserver(display);
+    outData.RegisterObserver(display);
+
+    inData.SetMeasurements(10, 50, 770);
+    outData.SetMeasurements(20, 30, 762);
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
+}

@@ -2,5 +2,5 @@
 
 public interface ICustomObserver<T>
 {
-    public void Update(T data);
+    public void Update(T data, ICustomObservable<T> source);
 }

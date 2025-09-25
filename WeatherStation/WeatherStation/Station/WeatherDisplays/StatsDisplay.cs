@@ -1,26 +1,36 @@
-﻿namespace WeatherStation.Station.WeatherDisplays;
+﻿using WeatherStation.Lib;
 
-public class StatsDisplay : Lib.ICustomObserver<WeatherInfo>
+namespace WeatherStation.Station.WeatherDisplays;
+
+public struct StatsDisplayValues()
 {
-    private readonly StationMeasurableValue _temperature = new StationMeasurableValue();
-    private readonly StationMeasurableValue _humidity = new StationMeasurableValue();
-    private readonly StationMeasurableValue _pressure = new StationMeasurableValue();
+    public StationMeasurableValue Temperature = new();
+    public StationMeasurableValue Humidity = new();
+    public StationMeasurableValue Pressure = new();
+}
 
-    public void Update(WeatherInfo data)
+public class StatsDisplay : ICustomObserver<WeatherInfo>
+{
+    private IDictionary<ICustomObservable<WeatherInfo>, StatsDisplayValues> _stats =
+        new Dictionary<ICustomObservable<WeatherInfo>, StatsDisplayValues>();
+
+    public void Update(WeatherInfo data, ICustomObservable<WeatherInfo> source)
     {
-        _temperature.AddNewValue(data.Temperature);
-        _humidity.AddNewValue(data.Humidity);
-        _pressure.AddNewValue(data.Pressure);
-
-        DisplayStat(_temperature, "temperature");
-        DisplayStat(_humidity, "humidity");
-        DisplayStat(_pressure, "pressure");
-    }
-
-    public void Update(WeatherInfo data, IList<Lib.ICustomObserver<WeatherInfo>> observers)
-    {
-        Update(data);
-        observers.Remove(this);
+        if (!_stats.ContainsKey(source))
+        {
+            _stats.Add(source, new StatsDisplayValues());
+        }
+        
+        StatsDisplayValues stats = _stats[source];
+        
+        stats.Temperature.AddNewValue(data.Temperature);
+        stats.Humidity.AddNewValue(data.Humidity);
+        stats.Pressure.AddNewValue(data.Pressure);
+        
+        Console.WriteLine($"Station name: {source.GetName()}");
+        DisplayStat(stats.Temperature, "temperature");
+        DisplayStat(stats.Humidity, "humidity");
+        DisplayStat(stats.Pressure, "pressure");
     }
 
     private void DisplayStat(StationMeasurableValue measurableValue, string statName)
@@ -32,4 +42,6 @@ public class StatsDisplay : Lib.ICustomObserver<WeatherInfo>
                            -------------------------------
                            """);
     }
+
+    
 }
