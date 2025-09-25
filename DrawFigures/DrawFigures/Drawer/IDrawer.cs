@@ -1,8 +1,8 @@
-﻿using SkiaSharp;
+﻿using DrawFigures.Canvas;
 
 namespace DrawFigures.Drawer;
 
 public interface IDrawer
 {
-    public void Draw(SKBitmap bitmap);
+    public void Draw(ICanvas canvas);
 }

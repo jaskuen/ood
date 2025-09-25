@@ -1,7 +1,7 @@
 ﻿using DrawFigures.Canvas;
 using DrawFigures.Picture.Implementation;
 
-namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+namespace DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 
 public class TextStrategy : IShapeStrategy
 {
@@ -27,5 +27,8 @@ public class TextStrategy : IShapeStrategy
         TextPosition.Y += y;
     }
 
-    public string StringParams() =>  $"text {TextPosition.X} {TextPosition.Y} {FontSize} {Text}";
+    public string StringParams()
+    {
+        return $"text {TextPosition.X} {TextPosition.Y} {FontSize} {Text}";
+    }
 }

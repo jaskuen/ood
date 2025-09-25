@@ -1,32 +1,37 @@
 ﻿using DrawFigures.Picture;
 using DrawFigures.Picture.Implementation;
-using DrawFigures.Shape;
-using DrawFigures.Shape.Implementation;
+using DrawFigures.Shapes.Implementation.ShapeStrategy;
+using DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 
 namespace DrawFigures.CommandExecutor.Implementation;
 
-public class CommandExecutor : ICommandExecutor
+public class ConsoleCommandExecutor : ICommandExecutor
 {
     private IPicture _picture;
 
-    public CommandExecutor(IPicture picture)
+    public ConsoleCommandExecutor(IPicture picture)
     {
         _picture = picture;
     }
 
     public bool ExecuteCommand(string command)
     {
-        List<string> parsedCommand = command.Split(' ').ToList();
+        var parsedCommand = command.Split(' ').ToList();
 
-        string commandName = parsedCommand[0].ToLower();
+        var commandName = parsedCommand[0].ToLower();
         parsedCommand.RemoveAt(0);
         // command name
         switch (commandName)
         {
             // <id> <color> <type> <params> 
             case "addshape":
-                _picture.AddShape(parsedCommand[0], parsedCommand[1], parsedCommand[2],
-                    parsedCommand.GetRange(3, parsedCommand.Count - 3));
+                var shapeToAdd =
+                    new Shapes.Implementation.Shape(parsedCommand[1], _picture.GetCanvas());
+                shapeToAdd.SetShapeStrategy(
+                    ShapeStrategyUtils.CreateShapeStrategy(parsedCommand[2],
+                        parsedCommand.GetRange(3, parsedCommand.Count - 3))
+                );
+                _picture.AddShape(parsedCommand[0], shapeToAdd);
                 break;
 
             // <id> <dx> <dy>
@@ -51,8 +56,9 @@ public class CommandExecutor : ICommandExecutor
                 break;
 
             case "changeshape":
-                _picture.ChangeShapeType(parsedCommand[0], parsedCommand[1],
+                IShapeStrategy newShapeStrategy = ShapeStrategyUtils.CreateShapeStrategy(parsedCommand[1],
                     parsedCommand.GetRange(2, parsedCommand.Count - 2));
+                _picture.ChangeShapeType(parsedCommand[0], newShapeStrategy);
                 break;
 
             case "drawshape":
@@ -62,11 +68,11 @@ public class CommandExecutor : ICommandExecutor
             case "drawpicture":
                 _picture.DrawPicture();
                 break;
-            
+
             case "exit":
                 return true;
         }
-        
+
         return false;
     }
 }

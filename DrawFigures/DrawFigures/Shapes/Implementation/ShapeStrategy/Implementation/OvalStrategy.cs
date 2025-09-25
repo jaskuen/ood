@@ -1,7 +1,7 @@
 ﻿using DrawFigures.Canvas;
 using DrawFigures.Picture.Implementation;
 
-namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+namespace DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 
 public class OvalStrategy : IShapeStrategy
 {
@@ -11,11 +11,11 @@ public class OvalStrategy : IShapeStrategy
         _radiusX = rx.ToFloat();
         _radiusY = ry.ToFloat();
     }
-    
+
     private readonly Point _center;
     private readonly float _radiusX;
     private readonly float _radiusY;
-    
+
     public void Draw(ICanvas canvas)
     {
         canvas.DrawEllipse(_center.X, _center.Y, _radiusX, _radiusY);
@@ -27,5 +27,8 @@ public class OvalStrategy : IShapeStrategy
         _center.Y += y;
     }
 
-    public string StringParams() => $"{_center.X} {_center.Y} {_radiusX} {_radiusY}";
+    public string StringParams()
+    {
+        return $"{_center.X} {_center.Y} {_radiusX} {_radiusY}";
+    }
 }

@@ -1,7 +1,7 @@
 ﻿using DrawFigures.Canvas;
 using DrawFigures.Picture.Implementation;
 
-namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+namespace DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 
 public class CircleStrategy : IShapeStrategy
 {
@@ -25,5 +25,8 @@ public class CircleStrategy : IShapeStrategy
         Center.Y += y;
     }
 
-    public string StringParams() => $"circle {Center.X} {Center.Y} {Radius}";
+    public string StringParams()
+    {
+        return $"circle {Center.X} {Center.Y} {Radius}";
+    }
 }

@@ -1,7 +1,7 @@
 ﻿using DrawFigures.Canvas;
 using DrawFigures.Picture.Implementation;
 
-namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+namespace DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 
 public class LineStrategy : IShapeStrategy
 {
@@ -28,5 +28,8 @@ public class LineStrategy : IShapeStrategy
         EndPoint.Y += y;
     }
 
-    public string StringParams() =>  $"line {StartPoint.X} {StartPoint.Y} {EndPoint.X} {EndPoint.Y}";
+    public string StringParams()
+    {
+        return $"line {StartPoint.X} {StartPoint.Y} {EndPoint.X} {EndPoint.Y}";
+    }
 }

@@ -1,7 +1,7 @@
 ﻿using DrawFigures.Canvas;
 using DrawFigures.Picture.Implementation;
 
-namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+namespace DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 
 public class RectangleStrategy : IShapeStrategy
 {
@@ -27,5 +27,8 @@ public class RectangleStrategy : IShapeStrategy
         Point.Y += y;
     }
 
-    public string StringParams() => $"rectangle {Point.X} {Point.Y} {Width} {Height}";
+    public string StringParams()
+    {
+        return $"rectangle {Point.X} {Point.Y} {Width} {Height}";
+    }
 }

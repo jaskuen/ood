@@ -1,4 +1,4 @@
-﻿namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+﻿namespace DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 
 public class Point
 {

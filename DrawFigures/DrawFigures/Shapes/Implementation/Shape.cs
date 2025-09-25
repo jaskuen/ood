@@ -1,10 +1,10 @@
 ﻿using DrawFigures.Canvas;
-using DrawFigures.Shape.Implementation.ShapeStrategy;
+using DrawFigures.Shapes.Implementation.ShapeStrategy;
 using SkiaSharp;
 
-namespace DrawFigures.Shape.Implementation;
+namespace DrawFigures.Shapes.Implementation;
 
-public class Shape : IShape
+public class Shape
 {
     private readonly ICanvas _canvas;
     private IShapeStrategy _shapeStrategy;
@@ -37,5 +37,8 @@ public class Shape : IShape
         _color = color;
     }
 
-    public override string ToString() => $"{_color} {_shapeStrategy.StringParams()}";
+    public override string ToString()
+    {
+        return $"{_color} {_shapeStrategy.StringParams()}";
+    }
 }

@@ -1,4 +1,4 @@
-﻿using DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+﻿using DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 using SkiaSharp;
 
 namespace DrawFigures.Canvas.Implementation;
@@ -15,7 +15,7 @@ public class Canvas : ICanvas
         _bitmap = new SKBitmap(width, height);
         _canvas = new SKCanvas(_bitmap);
         _canvas.Clear(SKColors.White);
-        _paint = new SKPaint()
+        _paint = new SKPaint
         {
             Color = SKColors.Black,
             StrokeWidth = 2,
@@ -44,24 +44,27 @@ public class Canvas : ICanvas
 
     public void DrawEllipse(float x, float y, float rx, float ry)
     {
-        SKRect ellipseRect = new SKRect(x - rx, y - ry, x + rx, y + ry);
+        var ellipseRect = new SKRect(x - rx, y - ry, x + rx, y + ry);
         _canvas.DrawArc(ellipseRect, 0, 360, true, _paint);
     }
 
     public void DrawRect(float x, float y, float width, float height)
     {
-        SKRect rect = new SKRect(x, y, x + width, y + height);
+        var rect = new SKRect(x, y, x + width, y + height);
         _canvas.DrawRect(rect, _paint);
     }
 
     public void DrawText(float x, float y, float fontSize, string text)
     {
-        SKFont font = new SKFont()
+        var font = new SKFont
         {
-            Size = fontSize,
+            Size = fontSize
         };
         _canvas.DrawText(text, x, y, font, _paint);
     }
 
-    public SKBitmap GetBitmap() => _bitmap;
+    public SKBitmap GetBitmap()
+    {
+        return _bitmap;
+    }
 }

@@ -6,7 +6,6 @@ using DrawFigures.Drawer;
 using DrawFigures.Drawer.Implementation;
 using DrawFigures.Picture;
 using DrawFigures.Picture.Implementation;
-using DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
 
 string? fileName = null;
 while (fileName == null)
@@ -19,19 +18,15 @@ while (fileName == null)
 //     parameters =>
 //         new OvalStrategy(parameters[0], parameters[1], parameters[2], parameters[3]));
 
-IDrawer drawer = new FileDrawer(fileName);
+IDrawer drawer = new SkiaSharpFileDrawer(fileName);
 IPicture picture = new Picture(800, 600);
-ICommandExecutor commandExecutor = new CommandExecutor(picture);
+ICommandExecutor commandExecutor = new ConsoleCommandExecutor(picture);
 
-string? command = Console.ReadLine();
+var command = Console.ReadLine();
 while (command != null)
-{
     try
     {
-        if (commandExecutor.ExecuteCommand(command))
-        {
-            break;
-        }
+        if (commandExecutor.ExecuteCommand(command)) break;
     }
     catch (Exception e)
     {
@@ -41,6 +36,5 @@ while (command != null)
     {
         command = Console.ReadLine();
     }
-}
 
-drawer.Draw(picture.GetBitmap());
+drawer.Draw(picture.GetCanvas());

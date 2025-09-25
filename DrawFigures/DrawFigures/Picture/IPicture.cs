@@ -1,5 +1,6 @@
-﻿using DrawFigures.Shape;
-using DrawFigures.Shape.Implementation;
+﻿using DrawFigures.Canvas;
+using DrawFigures.Shapes.Implementation;
+using DrawFigures.Shapes.Implementation.ShapeStrategy;
 using SkiaSharp;
 
 namespace DrawFigures.Picture;
@@ -8,14 +9,18 @@ public interface IPicture
 {
     public void DrawFigure(string id);
     public void DrawPicture();
-    public void AddShape(string id, string color, string shape, List<string> parameters);
+    public void AddShape(string id, Shape shape);
     public void DeleteShape(string id);
-    public IShape GetShape(string id);
-    public List<IShape> GetShapes();
+    public Shape GetShape(string id);
+    public List<Shape> GetShapes();
     public void MoveShape(string id, float x, float y);
     public void MovePicture(float x, float y);
     public void ChangeShapeColor(string id, string color);
-    public void ChangeShapeType(string id, string shape, List<string> parameters);
+    public void ChangeShapeType(string id, IShapeStrategy newShapeStrategy);
+
     public void List();
-    public SKBitmap GetBitmap();
+
+    // не привязываться к конкретной реализации рисования
+    // не привязывать bitmap к picture
+    public ICanvas GetCanvas();
 }

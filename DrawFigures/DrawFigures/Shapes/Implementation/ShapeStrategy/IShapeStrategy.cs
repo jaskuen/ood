@@ -1,6 +1,6 @@
 ﻿using DrawFigures.Canvas;
 
-namespace DrawFigures.Shape.Implementation.ShapeStrategy;
+namespace DrawFigures.Shapes.Implementation.ShapeStrategy;
 
 public interface IShapeStrategy
 {

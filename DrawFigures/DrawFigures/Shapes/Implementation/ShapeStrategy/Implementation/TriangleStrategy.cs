@@ -1,7 +1,7 @@
 ﻿using DrawFigures.Canvas;
 using DrawFigures.Picture.Implementation;
 
-namespace DrawFigures.Shape.Implementation.ShapeStrategy.Implementation;
+namespace DrawFigures.Shapes.Implementation.ShapeStrategy.Implementation;
 
 public class TriangleStrategy : IShapeStrategy
 {
@@ -34,5 +34,8 @@ public class TriangleStrategy : IShapeStrategy
         Point3.Y += y;
     }
 
-    public string StringParams() => $"triangle {Point1.X} {Point1.Y} {Point2.X} {Point2.Y} {Point3.X} {Point3.Y}";
+    public string StringParams()
+    {
+        return $"triangle {Point1.X} {Point1.Y} {Point2.X} {Point2.Y} {Point3.X} {Point3.Y}";
+    }
 }
