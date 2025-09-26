@@ -2,5 +2,6 @@
 
 public interface ICustomObserver<T>
 {
-    public void Update(T data, ICustomObservable<T> source);
+    // Убрать зависимость от Observable, брать уникальный идентификатор
+    public void Update(T data, ObservableData source);
 }

@@ -1,8 +1,19 @@
-﻿namespace WeatherStation.Lib.Implementation;
+﻿using System.Xml;
+
+namespace WeatherStation.Lib.Implementation;
 
 public class CustomObservable<T> : ICustomObservable<T>
 {
     private IDictionary<ICustomObserver<T>, int> _observers = new Dictionary<ICustomObserver<T>, int>();
+    private string _name;
+
+    public string Id { get; set; }
+
+    public CustomObservable(string name)
+    {
+        _name = name;
+        Id = Guid.NewGuid().ToString();
+    }
 
     public void RegisterObserver(ICustomObserver<T> observer, int priority = 1)
     {
@@ -15,14 +26,19 @@ public class CustomObservable<T> : ICustomObservable<T>
 
     public void NotifyMembers()
     {
-        IList<ICustomObserver<T>> currentObservers = 
+        IList<ICustomObserver<T>> currentObservers =
             _observers
                 .OrderBy(o => o.Value)
                 .Select(o => o.Key)
                 .ToList();
         foreach (ICustomObserver<T> observer in currentObservers)
         {
-            observer.Update(GetChangedData(), this);
+            observer.Update(
+                GetChangedData(),
+                new ObservableData(
+                    Id,
+                    GetName()
+                ));
         }
     }
 
@@ -34,7 +50,7 @@ public class CustomObservable<T> : ICustomObservable<T>
         }
     }
 
-    public virtual string GetName() => "";
+    public virtual string GetName() => _name;
 
     protected virtual T GetChangedData()
     {

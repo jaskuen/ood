@@ -23,11 +23,9 @@ public class WeatherData : CustomObservable<WeatherInfo>
     private double _temperature;
     private double _humidity;
     private double _pressure;
-    private string _name;
 
-    public WeatherData(string name)
+    public WeatherData(string name) : base(name)
     {
-        _name = name;
     }
 
     public double GetTemperature()
@@ -58,8 +56,6 @@ public class WeatherData : CustomObservable<WeatherInfo>
 
         MeasurementsChanged();
     }
-    
-    public override string GetName() => _name;
     
     protected override WeatherInfo GetChangedData()
     {
