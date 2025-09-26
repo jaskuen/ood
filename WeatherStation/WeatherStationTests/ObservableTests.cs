@@ -47,9 +47,9 @@ public class Tests
             .Setup(x => x.Update(It.IsAny<Empty>()))
             .Callback<Empty>(_ => result += "3");
         
-        observable.RegisterObserver(observer1);
-        observable.RegisterObserver(observer2, 2);
-        observable.RegisterObserver(observer3, 3);
+        observable.RegisterObserver(observer1, 2);
+        observable.RegisterObserver(observer2, 3);
+        observable.RegisterObserver(observer3);
         
         observable.NotifyMembers();
         
