@@ -4,7 +4,9 @@ using WeatherStation.Station;
 using WeatherStation.Station.WeatherDisplays;
 
 WeatherData station = new WeatherData();
+Display simpleDisplay = new Display();
 StatsDisplay display = new StatsDisplay();
+station.RegisterObserver(simpleDisplay);
 station.RegisterObserver(display);
 
 station.SetMeasurements(10, 20, 768);

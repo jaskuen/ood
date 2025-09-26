@@ -14,6 +14,7 @@ public struct WeatherInfo
                 Current temperature: {Temperature}
                 Current humidity: {Humidity}
                 Current pressure: {Pressure}
+                -------------------------------
                 """;
     }
 }
