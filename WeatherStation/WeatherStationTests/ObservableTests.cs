@@ -75,8 +75,8 @@ public class Tests
         observable3.RegisterObserver(observer);
         
         Mock.Get(observer)
-            .Setup(x => x.Update(It.IsAny<WeatherInfo>(), It.IsAny<ObservableData>()))
-            .Callback<WeatherInfo, ObservableData>((_, data) =>
+            .Setup(x => x.Update(It.IsAny<ObserverInfo>(), It.IsAny<ObservableData>()))
+            .Callback<ObserverInfo, ObservableData>((_, data) =>
             {
                 if (data.Id == observable1.Id)
                 {

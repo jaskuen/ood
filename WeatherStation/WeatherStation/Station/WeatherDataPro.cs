@@ -30,11 +30,9 @@ public class WeatherDataPro : CustomObservable<ObserverInfo>
     private double _pressure;
     private double _windSpeed;
     private double _windDirection;
-    private string _name;
 
-    public WeatherDataPro(string name)
+    public WeatherDataPro(string name) : base(name)
     {
-        _name = name;
     }
 
     public double GetTemperature()
@@ -78,8 +76,6 @@ public class WeatherDataPro : CustomObservable<ObserverInfo>
 
         MeasurementsChanged();
     }
-
-    public override string GetName() => _name;
     
     protected override WeatherProInfo GetChangedData()
     {

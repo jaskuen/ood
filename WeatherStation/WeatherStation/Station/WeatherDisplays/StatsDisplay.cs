@@ -16,7 +16,7 @@ public class StatsDisplay : ICustomObserver<ObserverInfo>
             _stats.Add(source.Id, new StatsDisplayValues());
         }
 
-        StatsDisplayValues stats = _stats[source];
+        StatsDisplayValues stats = _stats[source.Id];
         bool isPro = false;
 
         switch (data)
@@ -48,7 +48,7 @@ public class StatsDisplay : ICustomObserver<ObserverInfo>
                 throw new ArgumentOutOfRangeException(nameof(data));
         }
 
-        Console.WriteLine($"Station name: {source.GetName()}");
+        Console.WriteLine($"Station name: {source.Name}");
         DisplayStat(stats.Temperature, "temperature");
         DisplayStat(stats.Humidity, "humidity");
         DisplayStat(stats.Pressure, "pressure");
