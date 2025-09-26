@@ -28,30 +28,30 @@ public class Tests
         // В тесте задаем порядок для наблюдателей: 3 1 2
         // Он должен быть в итоговой строке
         
-        ICustomObserver<Empty> Observer1 = Mock.Of<ICustomObserver<Empty>>();
-        ICustomObserver<Empty> Observer2 = Mock.Of<ICustomObserver<Empty>>();
-        ICustomObserver<Empty> Observer3 = Mock.Of<ICustomObserver<Empty>>();
-        SimpleObservable Observable = new SimpleObservable();
+        ICustomObserver<Empty> observer1 = Mock.Of<ICustomObserver<Empty>>();
+        ICustomObserver<Empty> observer2 = Mock.Of<ICustomObserver<Empty>>();
+        ICustomObserver<Empty> observer3 = Mock.Of<ICustomObserver<Empty>>();
+        SimpleObservable observable = new SimpleObservable();
 
         string expected = "312";
         string result = String.Empty;
         
         // Добавляем номер наблюдателя (не его приоритет) в результирующую строку
-        Mock.Get(Observer1)
+        Mock.Get(observer1)
             .Setup(x => x.Update(It.IsAny<Empty>()))
             .Callback<Empty>(_ => result += "1");
-        Mock.Get(Observer2)
+        Mock.Get(observer2)
             .Setup(x => x.Update(It.IsAny<Empty>()))
             .Callback<Empty>(_ => result += "2");
-        Mock.Get(Observer3)
+        Mock.Get(observer3)
             .Setup(x => x.Update(It.IsAny<Empty>()))
             .Callback<Empty>(_ => result += "3");
         
-        Observable.RegisterObserver(Observer3);
-        Observable.RegisterObserver(Observer1, 2);
-        Observable.RegisterObserver(Observer2, 3);
+        observable.RegisterObserver(observer1);
+        observable.RegisterObserver(observer2, 2);
+        observable.RegisterObserver(observer3, 3);
         
-        Observable.NotifyMembers();
+        observable.NotifyMembers();
         
         Assert.That(result, Is.EqualTo(expected));
     }
