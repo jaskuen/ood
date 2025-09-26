@@ -15,10 +15,14 @@ public class Tests
     [Test]
     public void Observer_ObserverDeletesItselfFromList_DoesNotThrow()
     {
+        // Assign
         DeleteObserver observer = new DeleteObserver();
         DeleteObserverObservable observable = new DeleteObserverObservable();
+        
+        // Action
         observable.RegisterObserver(observer);
 
+        // Assert
         Assert.DoesNotThrow(() => observable.Execute());
     }
 
@@ -28,6 +32,7 @@ public class Tests
         // В тесте задаем порядок для наблюдателей: 3 1 2
         // Он должен быть в итоговой строке
         
+        // Assign
         ICustomObserver<Empty> observer1 = Mock.Of<ICustomObserver<Empty>>();
         ICustomObserver<Empty> observer2 = Mock.Of<ICustomObserver<Empty>>();
         ICustomObserver<Empty> observer3 = Mock.Of<ICustomObserver<Empty>>();
@@ -47,12 +52,14 @@ public class Tests
             .Setup(x => x.Update(It.IsAny<Empty>()))
             .Callback<Empty>(_ => result += "3");
         
+        // Action
         observable.RegisterObserver(observer1, 2);
         observable.RegisterObserver(observer2, 3);
         observable.RegisterObserver(observer3);
         
         observable.NotifyMembers();
         
+        // Assert
         Assert.That(result, Is.EqualTo(expected));
     }
 }
