@@ -4,6 +4,7 @@ public class StationMeasurableValue
 {
     private double _max = Double.MinValue;
     private double _min = Double.MaxValue;
+    // Remove
     private double _current = 0;
     private double _sum = 0;
     private double _count = 0;

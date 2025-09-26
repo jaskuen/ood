@@ -6,6 +6,7 @@ namespace WeatherStationTests;
 
 public class Tests
 {
+    // Выяснить про покрытие
 
     [SetUp]
     public void Setup()

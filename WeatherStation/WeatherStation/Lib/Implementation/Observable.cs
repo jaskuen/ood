@@ -15,6 +15,7 @@ public class CustomObservable<T> : ICustomObservable<T>
 
     public void NotifyMembers()
     {
+        // Сортировать при вставке
         IList<ICustomObserver<T>> currentObservers = 
             _observers
                 .OrderBy(o => o.Value)
