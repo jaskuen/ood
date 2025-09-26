@@ -18,7 +18,7 @@ public class Tests
     public void Observer_ObserverDeletesItselfFromList_DoesNotThrow()
     {
         DeleteObserver observer = new DeleteObserver();
-        DeleteObserverObservable observable = new DeleteObserverObservable();
+        DeleteObserverObservable observable = new DeleteObserverObservable("delete");
         observable.RegisterObserver(observer);
 
         Assert.DoesNotThrow(() => observable.Execute());
@@ -33,20 +33,20 @@ public class Tests
         ICustomObserver<Empty> Observer1 = Mock.Of<ICustomObserver<Empty>>();
         ICustomObserver<Empty> Observer2 = Mock.Of<ICustomObserver<Empty>>();
         ICustomObserver<Empty> Observer3 = Mock.Of<ICustomObserver<Empty>>();
-        SimpleObservable Observable = new SimpleObservable();
+        SimpleObservable Observable = new SimpleObservable("simple");
 
         string expected = "312";
         string result = String.Empty;
 
         // Добавляем номер наблюдателя (не его приоритет) в результирующую строку
         Mock.Get(Observer1)
-            .Setup(x => x.Update(It.IsAny<Empty>(), It.IsAny<ICustomObservable<Empty>>()))
+            .Setup(x => x.Update(It.IsAny<Empty>(), It.IsAny<ObservableData>()))
             .Callback(() => result += "1");
         Mock.Get(Observer2)
-            .Setup(x => x.Update(It.IsAny<Empty>(), It.IsAny<ICustomObservable<Empty>>()))
+            .Setup(x => x.Update(It.IsAny<Empty>(), It.IsAny<ObservableData>()))
             .Callback(() => result += "2");
         Mock.Get(Observer3)
-            .Setup(x => x.Update(It.IsAny<Empty>(), It.IsAny<ICustomObservable<Empty>>()))
+            .Setup(x => x.Update(It.IsAny<Empty>(), It.IsAny<ObservableData>()))
             .Callback(() => result += "3");
 
         Observable.RegisterObserver(Observer3);
@@ -75,14 +75,22 @@ public class Tests
         observable3.RegisterObserver(observer);
         
         Mock.Get(observer)
-            .Setup(x => x.Update(It.IsAny<WeatherInfo>(), observable1))
-            .Callback(() => result += "1");
-        Mock.Get(observer)
-            .Setup(x => x.Update(It.IsAny<WeatherInfo>(), observable2))
-            .Callback(() => result += "2");
-        Mock.Get(observer)
-            .Setup(x => x.Update(It.IsAny<WeatherInfo>(), observable3))
-            .Callback(() => result += "3");
+            .Setup(x => x.Update(It.IsAny<WeatherInfo>(), It.IsAny<ObservableData>()))
+            .Callback<WeatherInfo, ObservableData>((_, data) =>
+            {
+                if (data.Id == observable1.Id)
+                {
+                    result += "1";
+                }
+                if (data.Id == observable2.Id)
+                {
+                    result += "2";
+                }
+                if (data.Id == observable3.Id)
+                {
+                    result += "3";
+                }
+            });
         
         observable3.SetMeasurements(0, 0, 0);
         observable1.SetMeasurements(0, 0, 0);

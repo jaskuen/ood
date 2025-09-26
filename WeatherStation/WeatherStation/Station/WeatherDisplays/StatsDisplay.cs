@@ -6,14 +6,14 @@ namespace WeatherStation.Station.WeatherDisplays;
 
 public class StatsDisplay : ICustomObserver<ObserverInfo>
 {
-    private IDictionary<ICustomObservable<ObserverInfo>, StatsDisplayValues> _stats =
-        new Dictionary<ICustomObservable<ObserverInfo>, StatsDisplayValues>();
+    private IDictionary<string, StatsDisplayValues> _stats =
+        new Dictionary<string, StatsDisplayValues>();
 
-    public void Update(ObserverInfo data, ICustomObservable<ObserverInfo> source)
+    public void Update(ObserverInfo data, ObservableData source)
     {
-        if (!_stats.ContainsKey(source))
+        if (!_stats.ContainsKey(source.Id))
         {
-            _stats.Add(source, new StatsDisplayValues());
+            _stats.Add(source.Id, new StatsDisplayValues());
         }
 
         StatsDisplayValues stats = _stats[source];

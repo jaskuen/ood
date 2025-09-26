@@ -10,7 +10,7 @@ public struct Data
 
 public class DeleteObserver : ICustomObserver<Data>
 {
-    public void Update(Data data, ICustomObservable<Data> source)
+    public void Update(Data data, ObservableData source)
     {
         data.Observers.Remove(this);
     }
@@ -18,6 +18,10 @@ public class DeleteObserver : ICustomObserver<Data>
 
 public class DeleteObserverObservable : CustomObservable<Data>
 {
+    public DeleteObserverObservable(string name) : base(name)
+    {
+    }
+
     public void Execute()
     {
         NotifyMembers();
