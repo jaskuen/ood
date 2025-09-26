@@ -1,6 +1,8 @@
-﻿namespace WeatherStation.Station.WeatherDisplays;
+﻿using WeatherStation.Lib;
 
-public class StatsDisplay : Lib.ICustomObserver<WeatherInfo>
+namespace WeatherStation.Station.WeatherDisplays;
+
+public class StatsDisplay : ICustomObserver<WeatherInfo>
 {
     private readonly StationMeasurableValue _temperature = new StationMeasurableValue();
     private readonly StationMeasurableValue _humidity = new StationMeasurableValue();
