@@ -1,15 +1,21 @@
-﻿namespace WeatherStation.Lib.Implementation;
+﻿using System.Collections;
+
+namespace WeatherStation.Lib.Implementation;
 
 public class CustomObservable<T> : ICustomObservable<T>
 {
-    private IDictionary<ICustomObserver<T>, int> _observers = new Dictionary<ICustomObserver<T>, int>();
+    private List<KeyValuePair<ICustomObserver<T>, int>> _observers = new List<KeyValuePair<ICustomObserver<T>, int>>();
+    // private IDictionary<ICustomObserver<T>, int> _observers = new Dictionary<ICustomObserver<T>, int>();
 
     public void RegisterObserver(ICustomObserver<T> observer, int priority = 1)
     {
         // 1 - highest priority
-        if (!_observers.TryAdd(observer, priority))
+        int indexToInsert = _observers.BinarySearch(
+            new KeyValuePair<ICustomObserver<T>, int>(observer, priority), new ObserverListComparer<T>());
+
+        if (indexToInsert < 0)
         {
-            throw new Exception("Observer is already added");
+            _observers.Insert(~indexToInsert, new KeyValuePair<ICustomObserver<T>, int>(observer, priority));
         }
     }
 
@@ -18,7 +24,6 @@ public class CustomObservable<T> : ICustomObservable<T>
         // Сортировать при вставке
         IList<ICustomObserver<T>> currentObservers = 
             _observers
-                .OrderBy(o => o.Value)
                 .Select(o => o.Key)
                 .ToList();
         foreach (ICustomObserver<T> observer in currentObservers)
@@ -29,10 +34,14 @@ public class CustomObservable<T> : ICustomObservable<T>
 
     public void RemoveObserver(ICustomObserver<T> observer)
     {
-        if (!_observers.Remove(observer))
+        int index = _observers.BinarySearch(
+            new KeyValuePair<ICustomObserver<T>, int>(observer, 1), new ObserverListComparer<T>());
+        if (index < 0)
         {
             throw new Exception("Observer is not attached to this observable");
         }
+        
+        _observers.RemoveAt(index);
     }
 
     protected virtual T GetChangedData()
@@ -42,6 +51,6 @@ public class CustomObservable<T> : ICustomObservable<T>
 
     protected IList<ICustomObserver<T>> GetObservers()
     {
-        return _observers.Keys.ToList();
+        return _observers.Select(o => o.Key).ToList();
     }
 }
