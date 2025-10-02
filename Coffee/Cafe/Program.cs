@@ -12,4 +12,7 @@ Console.WriteLine($"{coffee.GetDescription()} {coffee.GetCost()}");
 
 coffee = new IceCubes(coffee, 10, IceCubeType.Dry);
 coffee = new ChocolateCrumbs(coffee, 20);
+coffee = new ChocolatePieces(coffee, 4);
+coffee = new Cream(coffee);
+coffee = new Liquor(coffee, LiquorType.Chocolate);
 Console.WriteLine($"{coffee.GetDescription()} {coffee.GetCost()}");
