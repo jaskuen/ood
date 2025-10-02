@@ -16,6 +16,6 @@ public class Beverage : IBeverage
 
     public virtual double GetCost()
     {
-        throw new NotImplementedException("Cannot use method of a base class");
+        throw new Exception("Cannot use method of a base class");
     }
 }
