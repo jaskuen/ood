@@ -4,7 +4,7 @@ public class Beverage : IBeverage
 {
     private string _description;
 
-    public Beverage(string description)
+    protected Beverage(string description)
     {
         _description = description;
     }
