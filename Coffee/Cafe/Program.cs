@@ -1,9 +1,15 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Cafe.Lib;
+using Cafe.Lib.Condiments;
 using Cafe.Lib.Implementation.CoffeeBeverages;
 
-Coffee coffee = new Latte(CoffeeSize.Standard);
-Console.WriteLine(coffee.GetDescription(), coffee.GetCost());
+IBeverage coffee = new Latte(CoffeeSize.Standard);
+Console.WriteLine($"{coffee.GetDescription()} {coffee.GetCost()}");
 
 coffee = new Cappuccino(CoffeeSize.Double);
-Console.WriteLine(coffee.GetDescription(), coffee.GetCost());
+Console.WriteLine($"{coffee.GetDescription()} {coffee.GetCost()}");
+
+coffee = new IceCubes(coffee, 10, IceCubeType.Dry);
+coffee = new ChocolateCrumbs(coffee, 20);
+Console.WriteLine($"{coffee.GetDescription()} {coffee.GetCost()}");
