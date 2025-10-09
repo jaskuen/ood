@@ -2,23 +2,43 @@
 
 public class MemoryInputStream : IInputStream
 {
+    private IList<byte> _data;
+    private int _position = 0;
+
+    public MemoryInputStream(byte[] data)
+    {
+        _data = data;
+    }
+
     public bool IsEOF()
     {
-        throw new NotImplementedException();
+        return _position >= _data.Count;
     }
 
     public byte ReadByte()
     {
-        throw new NotImplementedException();
+        return _data[_position++];
     }
 
-    public long ReadBlock(ref byte[] destinationData, int dataSize)
+    public long ReadBlock(IList<byte> destinationData, int dataSize)
     {
-        throw new NotImplementedException();
+        long dataSizeToRead = int.Min(dataSize, _data.Count - _position);
+        for (int i = 0; i < dataSizeToRead; i++)
+        {
+            if (i < destinationData.Count)
+            {
+                destinationData[i] = ReadByte();
+            }
+            else
+            {
+                destinationData.Add(ReadByte());
+            }
+        }
+
+        return dataSizeToRead;
     }
 
     public void Dispose()
     {
-        
     }
 }

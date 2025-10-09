@@ -1,6 +1,6 @@
 ﻿namespace FileEncryptor.Lib.Implementation;
 
-public class FileInputStream : IInputStream, IDisposable
+public class FileInputStream : IInputStream
 {
     private readonly FileStream _fileStream;
 
@@ -29,20 +29,31 @@ public class FileInputStream : IInputStream, IDisposable
         return buffer[0];
     }
 
-    public long ReadBlock(ref byte[] destinationData, int dataSize)
+    public long ReadBlock(IList<byte> destinationData, int dataSize)
     {
-        byte[] buffer = new byte[dataSize];
+        long dataSizeToRead = long.Min(dataSize, _fileStream.Length - _fileStream.Position);
+        byte[] buffer = new byte[dataSizeToRead];
         try
         {
-            _fileStream.ReadExactly(buffer, 0, dataSize);
-            destinationData = buffer;
+            _fileStream.ReadExactly(buffer, 0, (int)dataSizeToRead);
+            for (int i = 0; i < dataSizeToRead; i++)
+            {
+                if (i < destinationData.Count)
+                {
+                    destinationData[i] = buffer[i];
+                }
+                else
+                {
+                    destinationData.Add(buffer[i]);
+                }
+            }
         }
         catch (Exception e)
         {
             throw new IOException("Failed to read block from stream", e);
         }
 
-        return _fileStream.Position;
+        return dataSizeToRead;
     }
 
     public void Dispose()
