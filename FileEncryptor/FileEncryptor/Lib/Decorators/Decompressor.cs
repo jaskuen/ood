@@ -14,7 +14,7 @@ public class Decompressor : InputStreamDecorator
 
     public override bool IsEOF()
     {
-        return _isEof && _remainingCount == 0;
+        return (_isEof && _remainingCount == 0) || InputStream.IsEOF();
     }
 
     public override byte ReadByte()

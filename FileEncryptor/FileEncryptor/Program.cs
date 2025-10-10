@@ -33,11 +33,10 @@ public class Program
                 }
             }
 
-            // while (!copy.IsEOF())
-            // {
-            //     data.Add(copy.ReadByte());
-            // }
-            copy.ReadBlock(data, DATA_LENGTH);
+            while (!copy.IsEOF())
+            {
+                data.Add(copy.ReadByte());
+            }
         }
 
         using (IOutputStream outputStream = new FileOutputStream(commands.OutputFileName))
@@ -56,7 +55,7 @@ public class Program
                         break;
                 }
             }
-            copy.WriteBlock(data, DATA_LENGTH);
+            copy.WriteBlock(data, data.Count);
         }
     }
 }
