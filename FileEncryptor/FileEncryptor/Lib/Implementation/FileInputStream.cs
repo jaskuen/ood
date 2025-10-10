@@ -16,6 +16,10 @@ public class FileInputStream : IInputStream
 
     public byte ReadByte()
     {
+        if (IsEOF())
+        {
+            throw new IOException("Current stream position is EOF");
+        }
         byte[] buffer = new byte[1];
         try
         {

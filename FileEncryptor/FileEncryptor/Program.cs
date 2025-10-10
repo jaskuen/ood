@@ -10,6 +10,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        const int DATA_LENGTH = 1024;
+        
         Commands commands = CommandParser.ParseCommandLineArgs(args);
         
         IList<byte> data = new List<byte>();
@@ -30,7 +32,12 @@ public class Program
                         break;
                 }
             }
-            copy.ReadBlock(data, 1024);
+
+            // while (!copy.IsEOF())
+            // {
+            //     data.Add(copy.ReadByte());
+            // }
+            copy.ReadBlock(data, DATA_LENGTH);
         }
 
         using (IOutputStream outputStream = new FileOutputStream(commands.OutputFileName))
@@ -49,7 +56,7 @@ public class Program
                         break;
                 }
             }
-            copy.WriteBlock(data, 1024);
+            copy.WriteBlock(data, DATA_LENGTH);
         }
     }
 }
