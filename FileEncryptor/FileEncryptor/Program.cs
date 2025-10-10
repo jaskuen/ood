@@ -16,6 +16,7 @@ public class Program
         
         IList<byte> data = new List<byte>();
 
+        // Вынести создание потока в отдельный метод
         using (IInputStream inputStream = new FileInputStream(commands.InputFileName))
         {
             IInputStream copy = inputStream;

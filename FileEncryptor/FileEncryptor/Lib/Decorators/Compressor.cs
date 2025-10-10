@@ -34,6 +34,7 @@ public class Compressor : OutputStreamDecorator
         }
     }
 
+    // Поправить использование последнего байта
     public override void WriteBlock(IList<byte> sourceData, int dataSize)
     {
         int actualDataSize = int.Min(dataSize, sourceData.Count);

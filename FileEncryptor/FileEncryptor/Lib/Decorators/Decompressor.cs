@@ -14,7 +14,7 @@ public class Decompressor : InputStreamDecorator
 
     public override bool IsEOF()
     {
-        return (_isEof && _remainingCount == 0) || InputStream.IsEOF();
+        return _isEof && _remainingCount == 0 && InputStream.IsEOF();
     }
 
     public override byte ReadByte()
@@ -23,16 +23,12 @@ public class Decompressor : InputStreamDecorator
         if (_remainingCount > 0)
         {
             _remainingCount--;
+            _isEof = _remainingCount == 0 && InputStream.IsEOF();
+
             return _currentByte;
         }
 
         // next [count][value]
-        if (InputStream.IsEOF())
-        {
-            _isEof = true;
-            throw new EndOfStreamException("End of compressed stream reached");
-        }
-
         byte count = InputStream.ReadByte();
 
         if (InputStream.IsEOF())
@@ -71,9 +67,9 @@ public class Decompressor : InputStreamDecorator
 
                 bytesRead++;
             }
-            catch (EndOfStreamException)
+            catch (EndOfStreamException e)
             {
-                break;
+                throw new InvalidDataException("Invalid RLE stream: missing value after count", e);
             }
         }
 
