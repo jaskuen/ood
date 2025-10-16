@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiguresWithFactory", "FiguresWithFactory\FiguresWithFactory.csproj", "{60476DB6-845D-482B-A7A3-B258345F6379}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiguresWithFactoryTests", "FiguresWithFactoryTests\FiguresWithFactoryTests.csproj", "{DF98ACB6-50F9-4440-95EB-CD162C4D6C19}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60476DB6-845D-482B-A7A3-B258345F6379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60476DB6-845D-482B-A7A3-B258345F6379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60476DB6-845D-482B-A7A3-B258345F6379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60476DB6-845D-482B-A7A3-B258345F6379}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF98ACB6-50F9-4440-95EB-CD162C4D6C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF98ACB6-50F9-4440-95EB-CD162C4D6C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF98ACB6-50F9-4440-95EB-CD162C4D6C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF98ACB6-50F9-4440-95EB-CD162C4D6C19}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
