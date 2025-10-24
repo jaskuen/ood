@@ -1,4 +1,5 @@
-﻿using HtmlEditor.Lib.Document;
+﻿using HtmlEditor.Extensions;
+using HtmlEditor.Lib.Document;
 using HtmlEditor.Lib.Document.Img;
 using HtmlEditor.Lib.Document.Paragr;
 
@@ -257,6 +258,7 @@ public class CommandParser
     private void Exit()
     {
         _menu.Exit();
+        FileExtensions.DeleteTempImagesFolder();
     }
 
     public void Run() => _menu.Run();

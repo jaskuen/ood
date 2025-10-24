@@ -1,7 +1,5 @@
 ﻿using HtmlEditor.Extensions;
 using HtmlEditor.Lib.Command.Implementation;
-using HtmlEditor.Lib.Document.Img;
-using HtmlEditor.Lib.Document.Paragr;
 
 namespace HtmlEditor.Lib.Document.Implementation;
 
@@ -22,7 +20,7 @@ public class Document : IDocument
     public void ReplaceText(int position, string text)
     {
         _history.AddAndExecuteCommand(
-            new ReplaceTextCommand(_items, position, text), true
+            new ReplaceTextCommand(_items, position, text)
         );
     }
 
@@ -70,7 +68,7 @@ public class Document : IDocument
     public void SetTitle(string title)
     {
         _history.AddAndExecuteCommand(
-            new SetTitleCommand(_title, title), true
+            new SetTitleCommand(_title, title)
         );
     }
 
@@ -85,11 +83,5 @@ public class Document : IDocument
     public void Save(string path)
     {
         HtmlExtensions.CreateHtmlDocument(this, path);
-        FileExtensions.CopyFilesRecursively("images", $"{Path.GetDirectoryName(path)!}/images");
-
-        if (!string.IsNullOrEmpty(Path.GetDirectoryName(path)))
-        {
-            Directory.Delete("images", true);
-        }
     }
 }

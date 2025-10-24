@@ -39,9 +39,9 @@ public class InsertImageCommand : AbstractCommand
         if (string.IsNullOrWhiteSpace(_copiedImagePath))
         {
             string extension = Path.GetExtension(_path);
-            _copiedImagePath = $"images/{Path.ChangeExtension(Path.GetRandomFileName(), extension)}";
+            _copiedImagePath = $"tempImages/{Path.ChangeExtension(Path.GetRandomFileName(), extension)}";
 
-            Directory.CreateDirectory("images");
+            Directory.CreateDirectory("tempImages");
 
             File.Copy(_path, _copiedImagePath);
         }
@@ -49,7 +49,7 @@ public class InsertImageCommand : AbstractCommand
         Image image = new Image(_width, _height, _copiedImagePath);
         DocumentItem documentItem = new DocumentItem(image);
 
-        if (_position > 0)
+        if (_position >= 0)
         {
             _items.Insert(_position, documentItem);
             return;

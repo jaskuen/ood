@@ -1,5 +1,6 @@
 ﻿namespace HtmlEditor.Lib.Command;
 
+// Для чего используется
 public interface ICommand
 {
     public void Execute();

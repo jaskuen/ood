@@ -16,4 +16,9 @@ public static class FileExtensions
             File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
         }
     }
+
+    public static void DeleteTempImagesFolder()
+    {
+        Directory.Delete("tempImages", true);
+    }
 }

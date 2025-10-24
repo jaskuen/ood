@@ -9,9 +9,11 @@ public class History
     private readonly List<ICommand> _commands = [];
     private int _currentActionIndex = -1;
 
-    public void AddAndExecuteCommand(ICommand command, bool tryMerge = false)
+    public void AddAndExecuteCommand(ICommand command)
     {
-        if (tryMerge && _commands.Count > 0 && _commands[_currentActionIndex].Merge(command))
+        if (_commands.Count > 0 
+            && _currentActionIndex >= 0 
+            && _commands[_currentActionIndex].Merge(command))
         {
             return;
         }
@@ -45,12 +47,18 @@ public class History
     {
         if (_currentActionIndex < _commands.Count - 1)
         {
-            _commands.RemoveRange(_currentActionIndex + 1, _commands.Count - _currentActionIndex);
+            for (int i = _commands.Count - 1; i > _currentActionIndex; i--)
+            {
+                _commands[i].Destroy();
+            }
+
+            _commands.RemoveRange(_currentActionIndex + 1, _commands.Count - _currentActionIndex - 1);
         }
 
         if (_commands.Count == MaxHistorySize)
         {
             _commands.RemoveAt(0);
+            _currentActionIndex--;
         }
 
         _commands.Add(command);

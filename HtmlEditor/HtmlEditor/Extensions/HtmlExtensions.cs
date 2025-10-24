@@ -34,6 +34,9 @@ public static class HtmlExtensions
             IParagraph? paragraph = item.GetParagraph();
             IImage? image = item.GetImage();
 
+            // Копировать только необходимые на момент
+            // сохранения изображения
+
             if (paragraph != null)
             {
                 writer.WriteLine($"<p>{HtmlEncode(paragraph.GetText())}</p>");
@@ -46,6 +49,13 @@ public static class HtmlExtensions
 
                 writer.WriteLine(
                     $"<img src=\"{HtmlEncode(imagePath)}\" width=\"{image.GetWidth()}\" height=\"{image.GetHeight()}\" />");
+
+                if (!Directory.Exists(Path.Combine([directory ?? "", "images"])))
+                {
+                    Directory.CreateDirectory(Path.Combine([directory ?? "", "images"]));
+                }
+
+                File.Copy($"tempImages/{imageName}", Path.Combine([directory ?? "", "images", imageName]), true);
             }
         }
 
