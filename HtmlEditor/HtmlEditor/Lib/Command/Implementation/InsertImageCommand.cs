@@ -5,7 +5,7 @@ namespace HtmlEditor.Lib.Command.Implementation;
 
 public class InsertImageCommand : AbstractCommand
 {
-    private  IList<DocumentItem> _items;
+    private IList<DocumentItem> _items;
     private readonly int _position;
     private readonly int _width;
     private readonly int _height;
@@ -30,7 +30,7 @@ public class InsertImageCommand : AbstractCommand
         {
             return;
         }
-        
+
         File.Delete(_copiedImagePath);
     }
 
@@ -42,13 +42,20 @@ public class InsertImageCommand : AbstractCommand
             _copiedImagePath = $"images/{Path.ChangeExtension(Path.GetRandomFileName(), extension)}";
 
             Directory.CreateDirectory("images");
-            
-            File.Copy(_path,  _copiedImagePath);
+
+            File.Copy(_path, _copiedImagePath);
+        }
+
+        Image image = new Image(_width, _height, _copiedImagePath);
+        DocumentItem documentItem = new DocumentItem(image);
+
+        if (_position > 0)
+        {
+            _items.Insert(_position, documentItem);
+            return;
         }
         
-        Image image = new Image(_width,  _height, _copiedImagePath);
-        DocumentItem documentItem = new DocumentItem(image);
-        _items.Insert(_position, documentItem);
+        _items.Add(documentItem);
     }
 
     protected override void DoUndo()

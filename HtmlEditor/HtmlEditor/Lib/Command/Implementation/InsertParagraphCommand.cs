@@ -26,7 +26,14 @@ public class InsertParagraphCommand : AbstractCommand
     {
         Paragraph paragraph = new Paragraph(_text);
         DocumentItem documentItem = new DocumentItem(paragraph);
-        _items.Insert(_position, documentItem);
+
+        if (_position > 0)
+        {
+            _items.Insert(_position, documentItem);
+            return;
+        }
+        
+        _items.Add(documentItem);
     }
 
     protected override void DoUndo()

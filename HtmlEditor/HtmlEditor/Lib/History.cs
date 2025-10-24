@@ -23,7 +23,7 @@ public class History
 
     public bool CanUndo() => _currentActionIndex >= 0;
 
-    public bool CanRedo() => _currentActionIndex < _commands.Count;
+    public bool CanRedo() => _currentActionIndex < _commands.Count && _commands.Count > 0;
 
     public void Undo()
     {

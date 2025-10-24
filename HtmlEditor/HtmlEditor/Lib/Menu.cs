@@ -52,9 +52,9 @@ public class Menu
     private void ExecuteCommand(string commandLine)
     {
         using StringReader reader = new StringReader(commandLine);
-        var name = ReadNextWord(reader);
+        string? name = ReadNextWord(reader);
 
-        Item? item = _items.FirstOrDefault(i => i.Shortcut == name);
+        Item? item = _items.FirstOrDefault(i => string.Equals(i.Shortcut, (name ?? ""), StringComparison.CurrentCultureIgnoreCase));
         if (item == null)
         {
             throw new ArgumentException($"Unknown command {name}");
@@ -65,14 +65,13 @@ public class Menu
 
     private static string? ReadNextWord(StringReader reader)
     {
-        var word = "";
+        string word = "";
         int ch;
         while ((ch = reader.Read()) != -1 && !char.IsWhiteSpace((char)ch))
         {
             word += (char)ch;
         }
 
-        // Skip remaining spaces
         while ((ch = reader.Peek()) != -1 && char.IsWhiteSpace((char)ch))
         {
             reader.Read();
