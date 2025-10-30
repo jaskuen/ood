@@ -1,4 +1,5 @@
-﻿using HtmlEditor.Lib.Document;
+﻿using HtmlEditor.Extensions;
+using HtmlEditor.Lib.Document;
 using HtmlEditor.Lib.Document.Img;
 
 namespace HtmlEditor.Lib.Command.Implementation;
@@ -39,9 +40,9 @@ public class InsertImageCommand : AbstractCommand
         if (string.IsNullOrWhiteSpace(_copiedImagePath))
         {
             string extension = Path.GetExtension(_path);
-            _copiedImagePath = $"tempImages/{Path.ChangeExtension(Path.GetRandomFileName(), extension)}";
+            _copiedImagePath = Path.Combine(FileExtensions.GetTempFilePath(), Path.ChangeExtension(Path.GetRandomFileName(), extension));
 
-            Directory.CreateDirectory("tempImages");
+            Directory.CreateDirectory(FileExtensions.GetTempFilePath());
 
             File.Copy(_path, _copiedImagePath);
         }

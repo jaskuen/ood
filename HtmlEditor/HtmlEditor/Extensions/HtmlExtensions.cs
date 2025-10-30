@@ -55,7 +55,8 @@ public static class HtmlExtensions
                     Directory.CreateDirectory(Path.Combine([directory ?? "", "images"]));
                 }
 
-                File.Copy($"tempImages/{imageName}", Path.Combine([directory ?? "", "images", imageName]), true);
+                File.Copy(Path.Combine(FileExtensions.GetTempFilePath(), imageName),
+                    Path.Combine([directory ?? "", "images", imageName]), true);
             }
         }
 

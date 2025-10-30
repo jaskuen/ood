@@ -2,6 +2,8 @@
 
 public static class FileExtensions
 {
+    private static readonly string TempFilePath = GetTemporaryDirectory();
+
     public static void CopyFilesRecursively(string sourcePath, string targetPath)
     {
         Directory.CreateDirectory(targetPath);
@@ -19,6 +21,21 @@ public static class FileExtensions
 
     public static void DeleteTempImagesFolder()
     {
-        Directory.Delete("tempImages", true);
+        Directory.Delete(TempFilePath, true);
+    }
+
+    public static string GetTempFilePath() => TempFilePath;
+
+    private static string GetTemporaryDirectory()
+    {
+        string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+
+        if (File.Exists(tempDirectory))
+        {
+            return GetTemporaryDirectory();
+        }
+
+        Directory.CreateDirectory(tempDirectory);
+        return tempDirectory;
     }
 }
