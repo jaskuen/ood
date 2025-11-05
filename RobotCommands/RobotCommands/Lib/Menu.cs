@@ -7,10 +7,8 @@ public class Menu
 {
     private readonly List<MenuItem> _items = new();
     private bool _exit;
-    private bool _macroWriteMode;
-    private readonly List<ICommand> _macroCommandsToAdd = new();
-    private string _macroShortcut = String.Empty;
-    private string _macroDescription = String.Empty;
+
+    private MacroCommandCreator _macroCommandCreator = new();
 
     public void AddItem(string shortcut, string description, ICommand command)
     {
@@ -37,32 +35,26 @@ public class Menu
         }
     }
 
-    public void Exit()
+    public void StartMacro()
     {
-        _exit = true;
+        _macroCommandCreator.StartMacroWriteMode(_items.Select(i => i.Shortcut).ToList());
     }
 
-    public void StartMacroWriteMode()
+    public bool AddMacroCommand()
     {
-        _macroWriteMode = true;
-        _macroCommandsToAdd.Clear();
-
-        ReadMacroShortcutAndDescription();
-    }
-
-    public bool EndMacroWriteModeAndSaveCommand()
-    {
-        _macroWriteMode = false;
-
-        if (_macroCommandsToAdd.Count == 0)
+        ICommand? command = _macroCommandCreator.EndMacroWriteModeAndSaveCommand();
+        if (command is null)
         {
-            Console.WriteLine("Empty macro, not saving");
             return false;
         }
 
-        ICommand macroCommand = new MacroCommand(_macroCommandsToAdd);
-        AddItem(_macroShortcut, _macroDescription, macroCommand);
+        AddItem(_macroCommandCreator.MacroShortcut(), _macroCommandCreator.MacroDescription(), command);
         return true;
+    }
+
+    public void Exit()
+    {
+        _exit = true;
     }
 
     private bool ExecuteCommand(string command)
@@ -72,14 +64,14 @@ public class Menu
         ICommand? itemCommand = _items.FirstOrDefault(i => i.Shortcut == command)?.Command;
         if (itemCommand != null)
         {
-            if (_macroWriteMode)
+            if (_macroCommandCreator.IsMacroWriteMode())
             {
-                switch (TryAddCommandToMacro(itemCommand))
+                switch (_macroCommandCreator.TryAddCommandToMacro(itemCommand))
                 {
-                    case AddCommandToMacroResult.Added:
-                    case AddCommandToMacroResult.Error:
+                    case MacroCommandCreator.AddCommandToMacroResult.Added:
+                    case MacroCommandCreator.AddCommandToMacroResult.Error:
                         return true;
-                    case AddCommandToMacroResult.FinishMacro:
+                    case MacroCommandCreator.AddCommandToMacroResult.FinishMacro:
                         break;
                 }
             }
@@ -94,44 +86,6 @@ public class Menu
         return !_exit;
     }
 
-    private void ReadMacroShortcutAndDescription()
-    {
-        Console.WriteLine("Type your macro command shortcut:");
-        do
-        {
-            Console.Write("> ");
-        } while (string.IsNullOrWhiteSpace(_macroShortcut = Console.ReadLine() ?? string.Empty) &&
-                 CheckMacroName(_macroShortcut));
-
-        Console.WriteLine("Type your macro command description:");
-        do
-        {
-            Console.Write("> ");
-        } while (string.IsNullOrWhiteSpace(_macroDescription = Console.ReadLine() ?? string.Empty));
-    }
-
-    private bool CheckMacroName(string macroName)
-    {
-        return _items.Any(i => i.Shortcut == macroName);
-    }
-
-    private AddCommandToMacroResult TryAddCommandToMacro(ICommand command)
-    {
-        if (command is BeginMacroCommand)
-        {
-            Console.WriteLine("Cannot create another macro inside macro");
-            return AddCommandToMacroResult.Error;
-        }
-
-        if (command is EndMacroCommand)
-        {
-            return AddCommandToMacroResult.FinishMacro;
-        }
-
-        _macroCommandsToAdd.Add(command);
-        return AddCommandToMacroResult.Added;
-    }
-
     private class MenuItem
     {
         public string Shortcut { get; }
@@ -144,12 +98,5 @@ public class Menu
             Description = description;
             Command = command;
         }
-    }
-
-    private enum AddCommandToMacroResult
-    {
-        Error,
-        FinishMacro,
-        Added
     }
 }

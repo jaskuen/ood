@@ -1,4 +1,5 @@
 ﻿using HtmlEditor.Extensions;
+using HtmlEditor.Lib.Command.Implementation;
 using HtmlEditor.Lib.Document;
 using HtmlEditor.Lib.Document.Img;
 using HtmlEditor.Lib.Document.Paragr;
@@ -9,10 +10,15 @@ public class CommandParser
 {
     private const int MaxImageSize = 10000;
     private readonly Menu _menu = new();
-    private readonly IDocument _document = new Document.Implementation.Document();
+
+    private readonly History _history;
+    private readonly IDocument _document;
 
     public CommandParser()
     {
+        _history = new History();
+        _document = new Document.Implementation.Document(_history);
+        
         _menu.AddItem("InsertParagraph",
             "Usage: InsertParagraph <position>|end <text>. Inserts a paragraph into the specified position.",
             InsertParagraph);
@@ -125,7 +131,7 @@ public class CommandParser
             }
         }
 
-        _document.InsertImage(imagePath, (int)width, (int)height, position);
+        _history.AddAndExecuteCommand(new InsertImageCommand(_document, position, (int)width, (int)height, imagePath));
     }
 
     private void SetTitle(StringReader args)

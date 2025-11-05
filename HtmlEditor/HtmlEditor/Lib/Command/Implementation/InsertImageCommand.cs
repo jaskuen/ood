@@ -6,17 +6,18 @@ namespace HtmlEditor.Lib.Command.Implementation;
 
 public class InsertImageCommand : AbstractCommand
 {
-    private IList<DocumentItem> _items;
-    private readonly int _position;
+    private IDocument _document;
+    private readonly int? _position;
     private readonly int _width;
     private readonly int _height;
     private readonly string _path;
 
     private string _copiedImagePath = String.Empty;
 
-    public InsertImageCommand(IList<DocumentItem> items, int position, int width, int height, string path)
+    public InsertImageCommand(IDocument document, int? position, int width, int height,
+        string path)
     {
-        _items = items;
+        _document = document;
         _position = position;
         _width = width;
         _height = height;
@@ -37,30 +38,14 @@ public class InsertImageCommand : AbstractCommand
 
     protected override void DoExecute()
     {
-        if (string.IsNullOrWhiteSpace(_copiedImagePath))
-        {
-            string extension = Path.GetExtension(_path);
-            _copiedImagePath = Path.Combine(FileExtensions.GetTempFilePath(), Path.ChangeExtension(Path.GetRandomFileName(), extension));
-
-            Directory.CreateDirectory(FileExtensions.GetTempFilePath());
-
-            File.Copy(_path, _copiedImagePath);
-        }
-
-        Image image = new Image(_width, _height, _copiedImagePath);
-        DocumentItem documentItem = new DocumentItem(image);
-
-        if (_position >= 0)
-        {
-            _items.Insert(_position, documentItem);
-            return;
-        }
-        
-        _items.Add(documentItem);
+        _document.InsertImage(_path, _width, _height, _position);
     }
 
     protected override void DoUndo()
     {
-        _items.RemoveAt(_position);
+        if (_document.GetItemsCount() > _position)
+        {
+            _document.DeleteItem(_position.Value);
+        }
     }
 }

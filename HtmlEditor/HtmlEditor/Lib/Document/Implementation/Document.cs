@@ -1,5 +1,6 @@
 ﻿using HtmlEditor.Extensions;
 using HtmlEditor.Lib.Command.Implementation;
+using HtmlEditor.Lib.Document.Img;
 
 namespace HtmlEditor.Lib.Document.Implementation;
 
@@ -8,7 +9,14 @@ public class Document : IDocument
     private IList<DocumentItem> _items = [];
     private Ref<string> _title = new("");
 
-    private readonly History _history = new();
+    private IDictionary<int, string> _hashToImagePath = new Dictionary<int, string>();
+
+    private readonly History _history;
+
+    public Document(History history)
+    {
+        _history = history;
+    }
 
     public void InsertParagraph(string text, int? position = null)
     {
@@ -26,9 +34,29 @@ public class Document : IDocument
 
     public void InsertImage(string path, int width, int height, int? position = null)
     {
-        _history.AddAndExecuteCommand(
-            new InsertImageCommand(_items, position ?? _items.Count, width, height, path)
-        );
+        int copiedImagePathHash = path.GetHashCode();
+
+        if (!_hashToImagePath.TryGetValue(copiedImagePathHash, out string? copiedImagePath))
+        {
+            string extension = Path.GetExtension(path);
+            copiedImagePath = Path.Combine(FileExtensions.GetTempFilePath(),
+                Path.ChangeExtension(Path.GetRandomFileName(), extension));
+
+            Directory.CreateDirectory(FileExtensions.GetTempFilePath());
+
+            File.Copy(path, copiedImagePath);
+        }
+
+        Image image = new Image(width, height, copiedImagePath);
+        DocumentItem documentItem = new DocumentItem(image);
+
+        if (position != null && position >= 0)
+        {
+            _items.Insert(position.Value, documentItem);
+            return;
+        }
+
+        _items.Add(documentItem);
     }
 
     public void ResizeImage(int position, int width, int height)

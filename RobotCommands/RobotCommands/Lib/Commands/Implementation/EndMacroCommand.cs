@@ -11,7 +11,7 @@ public class EndMacroCommand : ICommand
 
     public void Execute()
     {
-        if (_menu.EndMacroWriteModeAndSaveCommand())
+        if (_menu.AddMacroCommand())
         {
             Console.WriteLine("Saved macro command");
         }

@@ -12,6 +12,6 @@ public class BeginMacroCommand : ICommand
     public void Execute()
     {
         Console.WriteLine("Starting to read macro command");
-        _menu.StartMacroWriteMode();
+        _menu.StartMacro();
     }
 }
