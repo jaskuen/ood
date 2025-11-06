@@ -33,13 +33,15 @@ public class ModernGraphicsRenderer : IDisposable
         _drawing = true;
     }
 
-    public void DrawLine(Point start, Point end)
+    public void DrawLine(Point start, Point end, RgbaColor color)
     {
         if (!_drawing)
         {
             throw new InvalidOperationException("DrawLine is allowed between BeginDraw()/EndDraw() only");
         }
-        _out.WriteLine($"  <line fromX=\"{start.X}\" fromY=\"{start.Y}\" toX=\"{end.X}\" toY=\"{end.Y}\"/>");
+        _out.WriteLine($"  <line fromX=\"{start.X}\" fromY=\"{start.Y}\" toX=\"{end.X}\" toY=\"{end.Y}\">");
+        _out.WriteLine($"    <color r=\"{color.R}\" g=\"{color.G}\" b=\"{color.B}\" a=\"{color.A}\" />");
+        _out.WriteLine($"  </line>");
     }
 
     public void EndDraw()
