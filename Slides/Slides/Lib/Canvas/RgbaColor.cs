@@ -7,6 +7,14 @@ public class RgbaColor
     public double B { get; set; }
     public double A { get; set; }
 
+    public RgbaColor()
+    {
+        R = 0;
+        G = 0;
+        B = 0;
+        A = 1;
+    }
+
     public RgbaColor(double r, double g, double b, double a)
     {
         R = r;
