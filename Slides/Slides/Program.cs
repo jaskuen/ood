@@ -83,6 +83,23 @@ using (SvgCanvas canvas = new SvgCanvas(writer))
     whisker4.SetFillStyle(false, black);
     whisker4.SetLineStyle(true, black, 1);
     slide.InsertShape(whisker4);
+    
+    // Group playing
+    // slide.InsertShapeGroup([1, 3, 5, 7]);
+    // Shape shape = slide.GetShapeAtIndex(1);
+    // IShapes? group = shape.GetShapesGroup();
+    // if (group != null)
+    // {
+    //     shape.SetFillStyle(true, green);
+    // }
+    //
+    // slide.InsertShapeGroup([1, 2, 3]);
+    // shape = slide.GetShapeAtIndex(1);
+    // group = shape.GetShapesGroup();
+    // if (group != null)
+    // {
+    //     shape.SetFillStyle(true, black);
+    // }
 
     // Draw the slide
     slide.Draw(canvas);

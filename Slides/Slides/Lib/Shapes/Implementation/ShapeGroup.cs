@@ -7,6 +7,9 @@ public class ShapeGroup : Shape, IShapes
 {
     private readonly IList<Shape> _shapes = [];
 
+    private bool _isUpdatingLineStyle = false;
+    private bool _isUpdatingFillStyle = false;
+
     public ShapeGroup(IList<Shape> shapes)
     {
         for (int i = 0; i < shapes.Count; i++)
@@ -98,26 +101,30 @@ public class ShapeGroup : Shape, IShapes
 
     protected override void DoSetLineStyleToChildren(bool isEnabled, RgbaColor color, double width = 1)
     {
-        LineStyle = new LineStyle(isEnabled, color, width);
-
-        foreach (Shape shape in _shapes)
+        if (!_isUpdatingLineStyle)
         {
-            shape.SetLineStyle(isEnabled, color, width);
-        }
+            _isUpdatingLineStyle = true;
+            foreach (Shape shape in _shapes)
+            {
+                shape.SetLineStyle(isEnabled, color, width);
+            }
 
-        Parent?.UpdateStrokeStyle();
+            _isUpdatingLineStyle = false;
+        }
     }
 
     protected override void DoSetFillStyleToChildren(bool isEnabled, RgbaColor color)
     {
-        FillStyle = new FillStyle(isEnabled, color);
-
-        foreach (Shape shape in _shapes)
+        if (!_isUpdatingFillStyle)
         {
-            shape.SetFillStyle(isEnabled, color);
-        }
+            _isUpdatingFillStyle = true;
+            foreach (Shape shape in _shapes)
+            {
+                shape.SetFillStyle(isEnabled, color);
+            }
 
-        Parent?.UpdateFillStyle();
+            _isUpdatingFillStyle = false;
+        }
     }
 
     public override IShapes? GetShapesGroup()
@@ -129,19 +136,21 @@ public class ShapeGroup : Shape, IShapes
 
     public void InsertShape(Shape shape, int position)
     {
-        if (position >= _shapes.Count)
-        {
-            throw new IndexOutOfRangeException("Insert position out of range");
-        }
-
         if (GetParents().Contains(shape))
         {
             throw new Exception("Trying to add some-level parent shape as a child");
         }
 
         shape.SetParent(this);
-        
-        _shapes.Insert(position, shape);
+
+        if (position >= _shapes.Count)
+        {
+            _shapes.Add(shape);
+        }
+        else
+        {
+            _shapes.Insert(position, shape);
+        }
     }
 
     public Shape GetShapeAt(int position)
