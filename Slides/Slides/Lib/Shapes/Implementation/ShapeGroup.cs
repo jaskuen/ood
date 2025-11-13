@@ -1,5 +1,8 @@
-﻿using Slides.Lib.Canvas;
+﻿using System.Runtime.CompilerServices;
+using Slides.Lib.Canvas;
 using Slides.Lib.Extensions;
+
+[assembly: InternalsVisibleTo("Slides.Tests")]
 
 namespace Slides.Lib.Shapes.Implementation;
 
@@ -9,6 +12,10 @@ public class ShapeGroup : Shape, IShapes
 
     private bool _isUpdatingLineStyle = false;
     private bool _isUpdatingFillStyle = false;
+
+    public ShapeGroup()
+    {
+    }
 
     public ShapeGroup(IList<Shape> shapes)
     {
@@ -151,6 +158,9 @@ public class ShapeGroup : Shape, IShapes
         {
             _shapes.Insert(position, shape);
         }
+
+        UpdateFillStyle();
+        UpdateStrokeStyle();
     }
 
     public Shape GetShapeAt(int position)
@@ -173,7 +183,7 @@ public class ShapeGroup : Shape, IShapes
         _shapes.RemoveAt(position);
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         for (int i = 0; i < _shapes.Count; i++)
         {
@@ -214,7 +224,7 @@ public class ShapeGroup : Shape, IShapes
         {
             if (someFillStyle != null)
             {
-                SetLineStyle(someFillStyle.IsEnabled, someFillStyle.Color);
+                SetFillStyle(someFillStyle.IsEnabled, someFillStyle.Color);
             }
 
             return;

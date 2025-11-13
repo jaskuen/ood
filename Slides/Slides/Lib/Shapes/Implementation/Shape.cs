@@ -9,7 +9,7 @@ public abstract class Shape : IShape
     protected LineStyle? LineStyle;
     protected FillStyle? FillStyle;
 
-    public void Draw(ICanvas canvas)
+    public virtual void Draw(ICanvas canvas)
     {
         if (LineStyle != null)
         {
@@ -44,7 +44,7 @@ public abstract class Shape : IShape
     public abstract LineStyle? GetLineStyle();
     public abstract FillStyle? GetFillStyle();
 
-    public void SetLineStyle(bool isEnabled, RgbaColor color, double width = 1)
+    public virtual void SetLineStyle(bool isEnabled, RgbaColor color, double width = 1)
     {
         LineStyle = new LineStyle(isEnabled, color, width);
 
@@ -53,7 +53,7 @@ public abstract class Shape : IShape
         Parent?.UpdateStrokeStyle();
     }
 
-    public void SetFillStyle(bool isEnabled, RgbaColor color)
+    public virtual void SetFillStyle(bool isEnabled, RgbaColor color)
     {
         FillStyle = new FillStyle(isEnabled, color);
 
@@ -67,7 +67,7 @@ public abstract class Shape : IShape
     protected abstract void DoSetLineStyleToChildren(bool isEnabled, RgbaColor color, double width = 1);
     protected abstract void DoSetFillStyleToChildren(bool isEnabled, RgbaColor color);
 
-    protected internal void SetParent(ShapeGroup parent)
+    protected internal virtual void SetParent(ShapeGroup parent)
     {
         if (Parent != null)
         {
