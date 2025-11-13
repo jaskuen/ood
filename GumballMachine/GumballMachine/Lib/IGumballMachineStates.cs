@@ -1,4 +1,8 @@
-﻿namespace GumballMachine.Lib;
+﻿using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("GumballMachine.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+
+namespace GumballMachine.Lib;
 
 internal interface IGumballMachineStates : IGumballMachine
 {
