@@ -125,6 +125,30 @@ public class ShapeGroupTests
         // Assert
         Assert.That(result, Is.Null);
     }
+    
+    [Test]
+    public void GetLineStyle_FirstDifferentThenSameStyles_ReturnsStyle()
+    {
+        // Arrange
+        var style1 = new LineStyle(true, new RgbaColor(255, 0, 0, 1), 2);
+        var style2 = new LineStyle(true, new RgbaColor(0, 255, 0, 1), 3);
+        _shape1Mock.Setup(s => s.GetLineStyle()).Returns(style1);
+        _shape2Mock.Setup(s => s.GetLineStyle()).Returns(style2);
+        _shapeGroup.InsertShape(_shape1Mock.Object, 0);
+        _shapeGroup.InsertShape(_shape2Mock.Object, 1);
+        
+        _shape2Mock.Setup(s => s.GetLineStyle()).Returns(style1);
+        _shapeGroup.UpdateStrokeStyle();
+
+        // Act
+        var result = _shapeGroup.GetLineStyle();
+
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result?.IsEnabled, Is.True);
+        Assert.That(result?.Color, Is.EqualTo(style1.Color));
+        Assert.That(result?.Width, Is.EqualTo(2));
+    }
 
     [Test]
     public void GetFillStyle_AllShapesSameStyle_ReturnsStyle()
@@ -161,6 +185,29 @@ public class ShapeGroupTests
 
         // Assert
         Assert.That(result, Is.Null);
+    }
+    
+    [Test]
+    public void GetFillStyle_FirstDifferentThenSameStyles_ReturnsStyle()
+    {
+        // Arrange
+        var style1 = new FillStyle(true, new RgbaColor(0, 0, 255, 0.5));
+        var style2 = new FillStyle(true, new RgbaColor(255, 0, 0, 0.5));
+        _shape1Mock.Setup(s => s.GetFillStyle()).Returns(style1);
+        _shape2Mock.Setup(s => s.GetFillStyle()).Returns(style2);
+        _shapeGroup.InsertShape(_shape1Mock.Object, 0);
+        _shapeGroup.InsertShape(_shape2Mock.Object, 1);
+        
+        _shape2Mock.Setup(s => s.GetFillStyle()).Returns(style1);
+        _shapeGroup.UpdateFillStyle();
+
+        // Act
+        var result = _shapeGroup.GetFillStyle();
+
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result?.IsEnabled, Is.True);
+        Assert.That(result?.Color, Is.EqualTo(style1.Color));
     }
 
     [Test]
