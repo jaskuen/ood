@@ -1,41 +1,84 @@
 ﻿namespace Proxy.Lib.CoW;
 
-public class CoW<T>
-    where T : class
+public sealed class CoW<T>
+    where T : ICloneable
 {
-    private SharedPtr<T> _obj;
-
-    public CoW(SharedPtr<T> obj)
+    private sealed class Box
     {
-        _obj = obj;
-        _obj.IncrementUsageCount();
+        internal T Value;
+        internal int RefCount = 1;
+
+        internal Box(T value) => Value = value!;
     }
 
-    private CoW(CoW<T> other)
-    {
-        if (other == null) throw new ArgumentNullException(nameof(other));
-        _obj = other._obj;
-        _obj.IncrementUsageCount();
-    }
+    private Box _box;
 
-    public CoW<T> Clone()
-    {
-        return new CoW<T>(this);
-    }
+    public CoW() => _box = new Box(default!);
 
-    public virtual T Value
+    public CoW(T? value)
     {
-        get => _obj.Get();
-        set
+        if (value is null && typeof(T).IsClass)
         {
-            if (_obj.GetCount() > 1 && !EqualityExtensions.Equals(value, _obj.Get()))
+            _box = new Box(default!);
+        }
+        else
+        {
+            _box = new Box(value);
+        }
+    }
+
+    public CoW(CoW<T> other)
+    {
+        lock (other._box)
+        {
+            other._box.RefCount++;
+            _box = other._box;
+        }
+    }
+
+    public int RefCount => _box.RefCount;
+    public T Value => _box.Value;
+
+    public void Modify(Action<T> modifier)
+    {
+        EnsureUnique();
+        modifier(_box.Value);
+    }
+
+    public TResult Modify<TResult>(Func<T, TResult> modifier)
+    {
+        EnsureUnique();
+        return modifier(_box.Value);
+    }
+
+    public void Set(T newValue)
+    {
+        EnsureUnique();
+        _box.Value = newValue;
+    }
+
+    private void EnsureUnique()
+    {
+        if (_box.RefCount > 1)
+        {
+            lock (_box)
             {
-                _obj = new SharedPtr<T>(value);
-            }
-            else
-            {
-                _obj.Set(value);
+                if (_box.RefCount > 1)
+                {
+                    _box.RefCount--;
+                    T copy = Clone(_box.Value);
+                    _box = new Box(copy);
+                }
             }
         }
+    }
+
+    private static T Clone(T original)
+    {
+        return original switch
+        {
+            null => default!,
+            ICloneable cloneable => (T)cloneable.Clone()
+        };
     }
 }
