@@ -10,7 +10,7 @@ Image img = ImageExtensions.LoadImage(
      CCCC             
     """);
 
-//img.PrintTo(Console.Out);
+img.PrintTo(Console.Out);
 
 Image image = new Image(new Size(60, 25));
 IDrawer drawer = new Drawer();
