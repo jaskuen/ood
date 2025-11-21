@@ -129,6 +129,8 @@ public sealed class Drawer : IDrawer
         int end = Math.Min(xTo, image.Width - 1);
 
         for (int x = start; x <= end; x++)
+        {
             image.SetPixel(new Point(x, y), color);
+        }
     }
 }

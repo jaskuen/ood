@@ -1,14 +1,14 @@
 ﻿namespace Proxy.Lib.CoW;
 
 public sealed class CoW<T>
-    where T : ICloneable
+    where T : ICloneable, IDisposable
 {
     private sealed class Box
     {
-        internal T Value;
-        internal int RefCount = 1;
+        public T Value;
+        public int RefCount = 1;
 
-        internal Box(T value) => Value = value!;
+        public Box(T value) => Value = value!;
     }
 
     private Box _box;
@@ -34,6 +34,11 @@ public sealed class CoW<T>
             other._box.RefCount++;
             _box = other._box;
         }
+    }
+
+    public void Dispose()
+    {
+        _box.RefCount--;
     }
 
     public int RefCount => _box.RefCount;

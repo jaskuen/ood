@@ -19,6 +19,7 @@ public sealed class CowTileProxy : ITile
 
     public void Dispose()
     {
+        _realTile.Dispose();
     }
 
     public char GetPixel(Point p)

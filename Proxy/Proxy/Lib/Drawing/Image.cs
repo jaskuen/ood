@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Text;
 using Proxy.Lib.Drawing.Implementation;
 
 [assembly: InternalsVisibleTo("Proxy.Test")]
@@ -40,6 +39,7 @@ public sealed class Image
                 _tiles[x, y] = (proxy.Clone() as ITile)!;
             }
         }
+        proxy.Dispose();
     }
 
     private static int CheckAndDivide(int pixels, string name)

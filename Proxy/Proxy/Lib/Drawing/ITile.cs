@@ -1,6 +1,6 @@
 ﻿namespace Proxy.Lib.Drawing;
 
-public interface ITile : IDisposable, ICloneable
+public interface ITile : ICloneable, IDisposable
 {
     const int SIZE = 8;
 

@@ -6,9 +6,13 @@ public sealed class Tile : ITile
 
     private readonly char[] _pixels = new char[SIZE * SIZE];
 
-    // Подсчёт именно реальных Tile (как в оригинальном C++ задании)
-    private static int s_instanceCount = 0;
-    public static int InstanceCount => s_instanceCount;
+    private static int _sInstanceCount = 0;
+    internal static int InstanceCount => _sInstanceCount;
+
+    internal static void ClearInstancesCount()
+    {
+        _sInstanceCount = 0;
+    }
 
     public Tile(char fillChar = ' ')
     {
@@ -17,17 +21,17 @@ public sealed class Tile : ITile
             _pixels[i] = fillChar;
         }
 
-        Interlocked.Increment(ref s_instanceCount);
+        Interlocked.Increment(ref _sInstanceCount);
+    }
+
+    public void Dispose()
+    {
+        Interlocked.Decrement(ref _sInstanceCount);
     }
 
     private Tile(char[] pixels)
     {
         _pixels = pixels;
-    }
-
-    public void Dispose()
-    {
-        Interlocked.Decrement(ref s_instanceCount);
     }
 
     public char GetPixel(Point p) =>
