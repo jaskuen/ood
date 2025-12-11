@@ -38,7 +38,8 @@ public sealed class MainForm : Form
             Font = new Font("Segoe UI", 10),
             BackColor = Color.WhiteSmoke
         };
-        // Enable double buffering to prevent flickering
+        
+        // Двойная буферизация
         typeof(Label).InvokeMember("DoubleBuffered",
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.SetProperty,
             null, _propertiesLabel, new object[] { true });
@@ -49,7 +50,8 @@ public sealed class MainForm : Form
             Width = 260,
             BackColor = Color.WhiteSmoke
         };
-        // Enable double buffering to prevent flickering
+        
+        // Двойная буферизация
         typeof(Panel).InvokeMember("DoubleBuffered",
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.SetProperty,
             null, propertiesPanel, new object[] { true });
@@ -117,8 +119,7 @@ public sealed class MainForm : Form
         doc.On(EventType.FigureRemoved, _ => RefreshProperties());
         doc.On(EventType.FigureChanged, payload =>
         {
-            // Skip property updates for geometry previews (during drag operations)
-            // Properties will be updated when the drag completes via commandApplied event
+            // Обновляем параметры в тот момент, когда закончили перемещение
             if (payload is not null)
             {
                 try
@@ -126,12 +127,12 @@ public sealed class MainForm : Form
                     dynamic changeInfo = payload;
                     if (changeInfo.Reason?.ToString() == "geometry")
                     {
-                        return; // Skip preview updates
+                        return;
                     }
                 }
                 catch
                 {
-                    // If dynamic access fails, proceed with update
+                    // Если не удалось получить данные, обновляем параметры
                 }
             }
             RefreshProperties();

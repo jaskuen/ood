@@ -49,19 +49,16 @@ public enum EventType
     /// </summary>
     GeometryChanged,
 
-    // ImageModel events
     /// <summary>
     /// Событие изменения изображения.
     /// </summary>
     ImageChanged,
 
-    // Selection events
     /// <summary>
     /// Событие изменения выделения.
     /// </summary>
     SelectionChanged,
 
-    // DocumentEditor events
     /// <summary>
     /// Событие сохранения документа.
     /// </summary>
@@ -77,7 +74,8 @@ public enum EventType
     /// </summary>
     CommandApplied,
 
-    // WindowManager events
+    // WindowManager
+
     /// <summary>
     /// Событие создания нового окна.
     /// </summary>
@@ -93,7 +91,8 @@ public enum EventType
     /// </summary>
     ActiveWindowChanged,
 
-    // CommandHistory events
+    // CommandHistory
+
     /// <summary>
     /// Событие изменения состояния истории команд (можно/нельзя отменить/повторить).
     /// </summary>
