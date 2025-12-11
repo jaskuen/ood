@@ -29,6 +29,8 @@ public sealed class MainForm : Form
 
         var canvasHost = new Panel { Dock = DockStyle.Fill, BackColor = Color.LightGray };
         canvasHost.Controls.Add(_canvas);
+        
+        KeyPreview = true;
 
         _propertiesLabel = new Label
         {
@@ -62,6 +64,16 @@ public sealed class MainForm : Form
         Controls.Add(toolbar);
 
         BindWindow(_activeWindow);
+    }
+
+    protected override void OnKeyUp(KeyEventArgs e)
+    {
+        base.OnKeyUp(e);
+
+        if (e.KeyCode == Keys.Delete)
+        {
+            DeleteSelection();
+        }
     }
 
     private Control BuildToolbar()
