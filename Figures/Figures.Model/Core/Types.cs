@@ -86,7 +86,6 @@ public class SerializedFigure
 /// </summary>
 public class DocumentData
 {
-    public string Version { get; set; } = "1.0.0";
     public string FileName { get; set; } = "Без названия";
     public CanvasData Canvas { get; set; } = new();
     public List<SerializedFigure> Figures { get; set; } = new();

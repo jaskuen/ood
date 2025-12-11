@@ -84,7 +84,6 @@ public class DocumentModel(string name = "Без названия", float width 
     {
         return new DocumentData
         {
-            Version = "1.0.0",
             FileName = _name,
             Canvas = new CanvasData { Width = _canvasWidth, Height = _canvasHeight },
             Figures = _figures.Select(f => f.Serialize()).ToList(),
