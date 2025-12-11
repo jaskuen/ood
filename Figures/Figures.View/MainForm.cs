@@ -146,7 +146,7 @@ public sealed class MainForm : Form
             UpdateTitle();
         });
         window.Session.Document.On(EventType.NameChanged, _ => UpdateTitle());
-        // Refresh properties when commands are applied (e.g., when drag completes)
+        // Обновляем параметры, когда операция завершена
         window.Session.On(EventType.CommandApplied, _ => RefreshProperties());
     }
 
@@ -202,7 +202,7 @@ public sealed class MainForm : Form
         }
 
         var newText = sb.ToString();
-        // Only update if the text actually changed to prevent unnecessary repaints
+        // Обновляем только если текст реально изменился
         if (newText != _lastPropertiesText)
         {
             _propertiesLabel.SuspendLayout();

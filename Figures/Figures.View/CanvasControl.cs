@@ -8,7 +8,7 @@ using ModelPoint = Figures.Model.Core.Point;
 namespace Figures.View;
 
 /// <summary>
-/// Простейший холст на WinForms с поддержкой выделения, перемещения и изменения размера фигур.
+/// Холст с поддержкой выделения, перемещения и изменения размера фигур
 /// </summary>
 public sealed class CanvasControl : Panel
 {
@@ -232,30 +232,30 @@ public sealed class CanvasControl : Panel
                 }
             }
 
-            // Check if clicking on selection border (but not on handle and not on figure itself)
+            // Клик по рамке, но не по точке ресайза
             var figureForBorder = _windowVm.Session.Document.GetFigure(selectedId);
             if (figureForBorder != null)
             {
                 var box = figureForBorder.GetBoundingBox();
-                // Check if point is on the selection border (within 4 pixels of the border edges)
+                // +- 4 пикселя
                 const float borderMargin = 4f;
                 var onBorder = (point.X >= box.X - borderMargin && point.X <= box.X + box.Width + borderMargin &&
-                                point.Y >= box.Y - borderMargin && point.Y <= box.Y + borderMargin) || // Top edge
+                                point.Y >= box.Y - borderMargin && point.Y <= box.Y + borderMargin) || // Верхний край
                                (point.X >= box.X - borderMargin && point.X <= box.X + box.Width + borderMargin &&
                                 point.Y >= box.Y + box.Height - borderMargin &&
-                                point.Y <= box.Y + box.Height + borderMargin) || // Bottom edge
+                                point.Y <= box.Y + box.Height + borderMargin) || // Нижний
                                (point.Y >= box.Y - borderMargin && point.Y <= box.Y + box.Height + borderMargin &&
-                                point.X >= box.X - borderMargin && point.X <= box.X + borderMargin) || // Left edge
+                                point.X >= box.X - borderMargin && point.X <= box.X + borderMargin) || // Левый
                                (point.Y >= box.Y - borderMargin && point.Y <= box.Y + box.Height + borderMargin &&
                                 point.X >= box.X + box.Width - borderMargin &&
-                                point.X <= box.X + box.Width + borderMargin); // Right edge
+                                point.X <= box.X + box.Width + borderMargin); // Правый
 
-                // But not inside the figure itself
+                // Не внутри фигуры
                 var insideFigure = figureForBorder.ContainsPoint(point);
 
                 if (onBorder && !insideFigure)
                 {
-                    // Start move operation when clicking on selection border
+                    // Начинаем операцию перемещения
                     _pendingDrag = point;
                     _pendingDragId = selectedId;
                     return;
@@ -292,30 +292,14 @@ public sealed class CanvasControl : Panel
             if (_dragContext.Value.Type == "move")
             {
                 var newRect = MovedRect(_dragContext.Value.OriginRect, point, _dragContext.Value.StartPoint);
-                _dragContext = new DragContext
-                {
-                    Type = _dragContext.Value.Type,
-                    Handle = _dragContext.Value.Handle,
-                    StartPoint = _dragContext.Value.StartPoint,
-                    FigureId = _dragContext.Value.FigureId,
-                    OriginRect = _dragContext.Value.OriginRect,
-                    LastRect = newRect
-                };
+                _dragContext = _dragContext.Value with { LastRect = newRect };
                 _windowVm.Session.PreviewTransform(_dragContext.Value.FigureId, newRect);
             }
             else if (_dragContext.Value.Type == "resize")
             {
                 var newRect = ResizedRect(point, _dragContext.Value.OriginRect, _dragContext.Value.Handle!.Value,
                     _dragContext.Value.StartPoint);
-                _dragContext = new DragContext
-                {
-                    Type = _dragContext.Value.Type,
-                    Handle = _dragContext.Value.Handle,
-                    StartPoint = _dragContext.Value.StartPoint,
-                    FigureId = _dragContext.Value.FigureId,
-                    OriginRect = _dragContext.Value.OriginRect,
-                    LastRect = newRect
-                };
+                _dragContext = _dragContext.Value with { LastRect = newRect };
                 _windowVm.Session.PreviewTransform(_dragContext.Value.FigureId, newRect);
             }
 
