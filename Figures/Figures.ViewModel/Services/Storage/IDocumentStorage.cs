@@ -1,4 +1,3 @@
-using Figures.Model;
 using Figures.Model.Core;
 
 namespace Figures.ViewModel.Services.Storage;
@@ -10,5 +9,7 @@ public interface IDocumentStorage
 {
     Task SaveAsync(string path, DocumentData data);
     Task<DocumentData?> OpenAsync(string path);
+    string GetFileType();
+    string GetFileExtension();
 }
 

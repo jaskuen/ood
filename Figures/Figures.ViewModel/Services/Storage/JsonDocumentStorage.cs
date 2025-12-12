@@ -33,5 +33,8 @@ public class JsonDocumentStorage : IDocumentStorage
             return null;
         }
     }
+
+    public string GetFileExtension() => "json";
+    public string GetFileType() => "JSON документ|*.json";
 }
 

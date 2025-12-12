@@ -29,7 +29,7 @@ public sealed class MainForm : Form
 
         var canvasHost = new Panel { Dock = DockStyle.Fill, BackColor = Color.LightGray };
         canvasHost.Controls.Add(_canvas);
-        
+
         KeyPreview = true;
 
         _propertiesLabel = new Label
@@ -40,10 +40,11 @@ public sealed class MainForm : Form
             Font = new Font("Segoe UI", 10),
             BackColor = Color.WhiteSmoke
         };
-        
+
         // Двойная буферизация
         typeof(Label).InvokeMember("DoubleBuffered",
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.SetProperty,
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance |
+            System.Reflection.BindingFlags.SetProperty,
             null, _propertiesLabel, new object[] { true });
 
         var propertiesPanel = new Panel
@@ -52,10 +53,11 @@ public sealed class MainForm : Form
             Width = 260,
             BackColor = Color.WhiteSmoke
         };
-        
+
         // Двойная буферизация
         typeof(Panel).InvokeMember("DoubleBuffered",
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.SetProperty,
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance |
+            System.Reflection.BindingFlags.SetProperty,
             null, propertiesPanel, new object[] { true });
         propertiesPanel.Controls.Add(_propertiesLabel);
 
@@ -147,6 +149,7 @@ public sealed class MainForm : Form
                     // Если не удалось получить данные, обновляем параметры
                 }
             }
+
             RefreshProperties();
         });
         doc.On(EventType.CanvasChanged, _ => RefreshProperties());
@@ -271,15 +274,19 @@ public sealed class MainForm : Form
             await SaveDocumentAsAsync();
             return;
         }
+
         MessageBox.Show(this, "Документ сохранён", "Готово", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     private async Task SaveDocumentAsAsync()
     {
+        string fileExtension = _activeWindow.Session.GetDocumentFileExtension();
+        string fileType = _activeWindow.Session.GetDocumentFileType();
+
         using var dialog = new SaveFileDialog
         {
-            Filter = "JSON документ|*.json",
-            FileName = $"{_activeWindow.Session.Document.Name}.json"
+            Filter = fileType,
+            FileName = $"{_activeWindow.Session.Document.Name}.{fileExtension}"
         };
 
         if (dialog.ShowDialog() != DialogResult.OK) return;
@@ -314,4 +321,3 @@ internal static class ControlExtensions
         return instance;
     }
 }
-

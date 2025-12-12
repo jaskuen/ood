@@ -167,6 +167,9 @@ public class DocumentEditor : EventEmitter
         Document.SetCanvasSize(width, height);
     }
 
+    public string GetDocumentFileExtension() => _documentStorage.GetFileExtension();
+    public string GetDocumentFileType() => _documentStorage.GetFileType();
+
     private void Load(DocumentData data)
     {
         History.Clear();
