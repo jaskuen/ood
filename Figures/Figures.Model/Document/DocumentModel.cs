@@ -5,7 +5,7 @@ using Figures.Model.Figures;
 namespace Figures.Model.Document;
 
 /// <summary>
-/// Модель документа - единственный источник истины для данных документа.
+/// Модель документа
 /// </summary>
 public class DocumentModel(string name = "Без названия", float width = 960, float height = 640)
     : EventEmitter

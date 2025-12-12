@@ -4,7 +4,7 @@ using Figures.Model.Core.Events;
 namespace Figures.Model.Figures;
 
 /// <summary>
-/// Представляет модель фигуры-изображения.
+/// Изображение
 /// </summary>
 public class ImageModel(
     Rect box,

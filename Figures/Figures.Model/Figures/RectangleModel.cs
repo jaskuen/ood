@@ -4,7 +4,7 @@ using Figures.Model.Core.Events;
 namespace Figures.Model.Figures;
 
 /// <summary>
-/// Представляет модель прямоугольной фигуры.
+/// Прямоугольник
 /// </summary>
 public class RectangleModel(Rect box, FigureAttributes? attributes = null, string? id = null)
     : FigureModel(id ?? Guid.NewGuid().ToString(), FigureKind.Rectangle, attributes)

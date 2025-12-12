@@ -5,7 +5,7 @@ using Figures.Model.Core.Utils;
 namespace Figures.Model.Figures;
 
 /// <summary>
-/// Представляет модель треугольной фигуры.
+/// Треугольник
 /// </summary>
 public class TriangleModel(
     Rect box,

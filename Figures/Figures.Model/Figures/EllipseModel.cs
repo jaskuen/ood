@@ -5,7 +5,7 @@ using Figures.Model.Core.Utils;
 namespace Figures.Model.Figures;
 
 /// <summary>
-/// Представляет модель эллиптической фигуры.
+/// Эллипс
 /// </summary>
 public class EllipseModel(Rect box, FigureAttributes? attributes = null, string? id = null)
     : FigureModel(id ?? Guid.NewGuid().ToString(), FigureKind.Ellipse, attributes)
