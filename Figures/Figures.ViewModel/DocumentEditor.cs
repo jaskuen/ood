@@ -116,13 +116,13 @@ public class DocumentEditor : EventEmitter
     }
 
     /// <summary>
-    /// Saves the document to the current file path. If no path is set, returns false.
+    /// Сохранить
     /// </summary>
     public async Task<bool> SaveAsync()
     {
         if (string.IsNullOrWhiteSpace(CurrentFilePath))
         {
-            return false; // No current path, need to use Save As
+            return false; // Нет пути
         }
 
         await SaveAsAsync(CurrentFilePath);
@@ -130,7 +130,7 @@ public class DocumentEditor : EventEmitter
     }
 
     /// <summary>
-    /// Saves the document to the specified path (Save As).
+    /// Сохранить как
     /// </summary>
     public async Task SaveAsAsync(string path)
     {
@@ -180,7 +180,7 @@ public class DocumentEditor : EventEmitter
         _imageStorage.Dispose();
         _imageStorage = new ImageStorage();
 
-        // First, store all images in the storage
+        // Все картинки из хранилища
         var images = data.Images ?? new Dictionary<string, ImageData>();
         foreach (var (id, info) in images)
         {
@@ -189,7 +189,7 @@ public class DocumentEditor : EventEmitter
             _imageStorage.StoreDataAsync(id, imageData, info.Name).Wait();
         }
 
-        // Then create figures - the resolveImage callback will get data from storage
+        // Создаем фигуры
         foreach (var serialized in data.Figures)
         {
             var figure = FigureFactory.FromSerialized(serialized, imageId =>
@@ -198,7 +198,7 @@ public class DocumentEditor : EventEmitter
                 return data;
             });
 
-            // For ImageModel, ensure the image data is set after creation
+            // Для картинок проверяем, что данные корректны
             if (figure is ImageModel imageModel)
             {
                 var imageData = _imageStorage.GetImageData(imageModel.ImageId);
