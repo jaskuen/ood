@@ -270,7 +270,7 @@ public sealed class MainForm : Form
         var saved = await _activeWindow.Session.SaveAsync();
         if (!saved)
         {
-            // No current path, use Save As instead
+            // Файл до этого не был сохранен
             await SaveDocumentAsAsync();
             return;
         }
@@ -297,7 +297,9 @@ public sealed class MainForm : Form
     private async Task OpenDocumentAsync()
     {
         using var dialog = new OpenFileDialog();
-        dialog.Filter = "JSON документ|*.json";
+        string fileType = _activeWindow.Session.GetDocumentFileType();
+        
+        dialog.Filter = fileType;
         dialog.Multiselect = false;
 
         if (dialog.ShowDialog() != DialogResult.OK) return;
