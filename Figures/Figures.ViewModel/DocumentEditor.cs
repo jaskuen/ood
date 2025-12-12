@@ -10,7 +10,7 @@ using Figures.ViewModel.Services.Storage;
 namespace Figures.ViewModel;
 
 /// <summary>
-/// Редактор документа - точка входа для всех действий пользователя.
+/// Редактор документа
 /// </summary>
 public class DocumentEditor : EventEmitter
 {
