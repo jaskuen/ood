@@ -1,6 +1,5 @@
 using System.Text;
 using DrawingSize = System.Drawing.Size;
-using Figures.Model;
 using Figures.Model.Core;
 using Figures.Model.Core.Events;
 using Figures.ViewModel;
